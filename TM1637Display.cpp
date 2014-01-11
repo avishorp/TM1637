@@ -24,6 +24,39 @@ extern "C" {
 #include <TM1637Display.h>
 #include <Arduino.h>
 
+#define TM1637_I2C_COMM1    0x40
+#define TM1637_I2C_COMM2    0xC0
+#define TM1637_I2C_COMM3    0x80
+
+//
+//      A
+//     ---
+//  F |   | B
+//     -G-
+//  E |   | C
+//     ---
+//      D
+const uint8_t digitToSegment[] = {
+ // XGFEDCBA
+  0b00111111,    // 0
+  0b00000110,    // 1
+  0b01011011,    // 2
+  0b01001111,    // 3
+  0b01100110,    // 4
+  0b01101101,    // 5
+  0b00111101,    // 6
+  0b00000111,    // 7
+  0b01111111,    // 8
+  0b01101111,    // 9
+  0b01110111,    // A
+  0b01111100,    // B
+  0b00111001,    // C
+  0b01000111,    // D
+  0b01111001,    // E
+  0b01110001     // F
+  };
+ 
+	
 TM1637Display::TM1637Display(uint8_t pinClk, uint8_t pinDIO)
 {
 	// Copy the pin numbers
@@ -45,19 +78,24 @@ void TM1637Display::setBrightness(uint8_t brightness)
 
 void TM1637Display::setSegments(uint8_t segments[], uint8_t length, uint8_t pos)
 {
+    // Write COMM1
 	start();
-	if (!writeByte(0x40))
-	   digitalWrite(13,HIGH);
+	writeByte(TM1637_I2C_COMM1);
 	stop();
+	
+	// Write COMM2 + first digit address
 	start();
-	writeByte(0xc0);
-	writeByte(0xff);
-	writeByte(0xff);
-	writeByte(0x00);
-	writeByte(0xff);
+	writeByte(TM1637_I2C_COMM2 + (pos & 0x03));
+	
+	// Write the data bytes
+	for (uint8_t k=0; k < length; k++) 
+	  writeByte(segments[k]);
+	  
 	stop();
+
+	// Write COMM3 + brightness
 	start();
-	writeByte(0x8f);
+	writeByte(TM1637_I2C_COMM3 + (m_brightness & 0x0f));
 	stop();
 }
  
