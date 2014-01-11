@@ -63,6 +63,17 @@ public:
   //!        the number must be between 0 to 99)
   //! @param pos The position least significant digit (0 - leftmost, 3 - rightmost)
   void showNumberDec(int num, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
+  
+  //! Translate a single digit into 7 segment code
+  //!
+  //! The method accepts a number between 0 - 15 and converts it to the
+  //! code required to display the number on a 7 segment display.
+  //! Numbers between 10-15 are converted to hexadecimal digits (A-F)
+  //!
+  //! @param digit A number between 0 to 15
+  //! @return A code representing the 7 segment image of the digit (LSB - segment A;
+  //!         bit 6 - segment G; bit 7 - always zero)
+  uint8_t encodeDigit(uint8_t digit);
 
 protected:
    void bitDelay();

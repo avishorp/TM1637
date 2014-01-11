@@ -170,5 +170,11 @@ bool TM1637Display::writeByte(uint8_t b)
   
   return ack;
 }
+
+uint8_t TM1637Display::encodeDigit(uint8_t digit)
+{
+	return digitToSegment[digit & 0x0f];
+}
+
    
 
