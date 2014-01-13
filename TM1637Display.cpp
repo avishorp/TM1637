@@ -44,7 +44,7 @@ const uint8_t digitToSegment[] = {
   0b01001111,    // 3
   0b01100110,    // 4
   0b01101101,    // 5
-  0b00111101,    // 6
+  0b01111101,    // 6
   0b00000111,    // 7
   0b01111111,    // 8
   0b01101111,    // 9
@@ -101,6 +101,28 @@ void TM1637Display::setSegments(uint8_t segments[], uint8_t length, uint8_t pos)
  
 void TM1637Display::showNumberDec(int num, bool leading_zero, uint8_t length, uint8_t pos)
 {
+	uint8_t digits[4];
+	const int divisors[] = { 1, 10, 100, 1000 };
+	bool leading = true;
+	
+	for(int8_t k = 0; k < length; k++) {
+	    int divisor = divisors[length - 1 - k];
+		int d = num / divisor;
+		
+		if (d == 0) {
+		  if (leading_zero || !leading)
+		    digits[k] = encodeDigit(d);
+	      else
+		    digits[k] = 0;
+		}
+		else {
+			digits[k] = encodeDigit(d);
+			num -= d * divisor;
+			leading = false;
+		}
+	}
+	
+	setSegments(digits, length, pos);
 }
 
 void TM1637Display::bitDelay()
