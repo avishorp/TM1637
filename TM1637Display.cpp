@@ -76,7 +76,7 @@ void TM1637Display::setBrightness(uint8_t brightness)
 	m_brightness = brightness;
 }
 
-void TM1637Display::setSegments(uint8_t segments[], uint8_t length, uint8_t pos)
+void TM1637Display::setSegments(const uint8_t segments[], uint8_t length, uint8_t pos)
 {
     // Write COMM1
 	start();

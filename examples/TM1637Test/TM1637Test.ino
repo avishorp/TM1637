@@ -8,7 +8,7 @@
 // The amount of time (in milliseconds) between tests
 #define TEST_DELAY   2000
 
-const char SEG_DONE[] = {
+const uint8_t SEG_DONE[] = {
 	SEG_B | SEG_C | SEG_D | SEG_E | SEG_G,           // d
 	SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F,   // O
 	SEG_C | SEG_E | SEG_G,                           // n
@@ -81,8 +81,7 @@ void loop()
   delay(TEST_DELAY);
     
   // Done!
-  display.setSegments(&SEG_DONE);
+  display.setSegments(SEG_DONE);
   
   while(1);
 }
-

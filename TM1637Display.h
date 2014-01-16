@@ -57,7 +57,7 @@ public:
   //! @param segments An array of size @ref length containing the raw segment values
   //! @param length The number of digits to be modified
   //! @param pos The position from which to start the modification (0 - leftmost, 3 - rightmost)
-  void setSegments(uint8_t segments[], uint8_t length = 4, uint8_t pos = 0);
+  void setSegments(const uint8_t segments[], uint8_t length = 4, uint8_t pos = 0);
   
   //! Displayes a decimal number
   //!
