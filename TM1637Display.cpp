@@ -105,12 +105,12 @@ void TM1637Display::showNumberDec(int num, bool leading_zero, uint8_t length, ui
 	const static int divisors[] = { 1, 10, 100, 1000 };
 	bool leading = true;
 	
-	for(int8_t k = 0; k < length; k++) {
-	    int divisor = divisors[length - 1 - k];
+	for(int8_t k = 0; k < 4; k++) {
+	    int divisor = divisors[4 - 1 - k];
 		int d = num / divisor;
 		
 		if (d == 0) {
-		  if (leading_zero || !leading || (k == length-1))
+		  if (leading_zero || !leading || (k == 3))
 		    digits[k] = encodeDigit(d);
 	      else
 		    digits[k] = 0;
@@ -122,7 +122,7 @@ void TM1637Display::showNumberDec(int num, bool leading_zero, uint8_t length, ui
 		}
 	}
 	
-	setSegments(digits, length, pos);
+	setSegments(digits + (4 - length), length, pos);
 }
 
 void TM1637Display::bitDelay()
