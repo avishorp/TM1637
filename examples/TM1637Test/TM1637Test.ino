@@ -8,6 +8,13 @@
 // The amount of time (in milliseconds) between tests
 #define TEST_DELAY   2000
 
+const char SEG_DONE[] = {
+	SEG_B | SEG_C | SEG_D | SEG_E | SEG_G,           // d
+	SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F,   // O
+	SEG_C | SEG_E | SEG_G,                           // n
+	SEG_A | SEG_D | SEG_E | SEG_F | SEG_G            // E
+	};
+
 TM1637Display display(CLK, DIO);
 
 void setup()
@@ -45,8 +52,7 @@ void loop()
   delay(TEST_DELAY);
  
   
-  // Convert decimal to segments
-  // Without leading zero
+  // Show decimal numbers with/without leading zeros
   bool lz = false;
   for (uint8_t z = 0; z < 2; z++) {
 	for(k = 0; k < 10000; k += k*4 + 7) {
@@ -55,5 +61,28 @@ void loop()
 	}
 	lz = true;
   }
+  
+  // Show decimal number whose length is smaller than 4
+  for(k = 0; k < 4; k++)
+	data[k] = 0;
+  display.setSegments(data);
+  
+  display.showNumberDec(153, false, 3, 1);
+  delay(TEST_DELAY);
+  display.showNumberDec(22, false, 2, 2);
+  delay(TEST_DELAY);
+  display.showNumberDec(0, true, 1, 3);
+  delay(TEST_DELAY);
+  display.showNumberDec(0, true, 1, 2);
+  delay(TEST_DELAY);
+  display.showNumberDec(0, true, 1, 1);
+  delay(TEST_DELAY);
+  display.showNumberDec(0, true, 1, 0);
+  delay(TEST_DELAY);
+    
+  // Done!
+  display.setSegments(&SEG_DONE);
+  
   while(1);
 }
+
