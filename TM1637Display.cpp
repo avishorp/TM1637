@@ -127,9 +127,7 @@ void TM1637Display::showNumberDec(int num, bool leading_zero, uint8_t length, ui
 
 void TM1637Display::bitDelay()
 {
-delay(1);
-//	int i;
-//	for(i = 0; i < 250; i++);
+	delayMicroseconds(50);
 }
    
 void TM1637Display::start()
