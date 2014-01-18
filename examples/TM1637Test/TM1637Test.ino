@@ -79,6 +79,15 @@ void loop()
   delay(TEST_DELAY);
   display.showNumberDec(0, true, 1, 0);
   delay(TEST_DELAY);
+
+  // Brightness Test
+  for(k = 0; k < 4; k++)
+	data[k] = 0xff;
+  for(k = 0; k < 16; k++) {
+    display.setBrightness(k);
+    display.setSegments(data);
+    delay(TEST_DELAY);
+  }
     
   // Done!
   display.setSegments(SEG_DONE);
