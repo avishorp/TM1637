@@ -27,7 +27,7 @@
 #define SEG_F   0b00100000
 #define SEG_G   0b01000000
 
-// Added by Chamie: defines which element's highest bit is the colon's control bit
+// Defines which element's highest bit is the colon's control bit
 #define COLON_POSITION 1
 
 class TM1637Display {
