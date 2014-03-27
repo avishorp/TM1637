@@ -1,4 +1,3 @@
-
 //  Author: avishorp@gmail.com
 //
 //  This library is free software; you can redistribute it and/or
@@ -62,6 +61,8 @@ TM1637Display::TM1637Display(uint8_t pinClk, uint8_t pinDIO)
 	// Copy the pin numbers
 	m_pinClk = pinClk;
 	m_pinDIO = pinDIO;
+	
+	// Set colon off by default? Or change the constructor?
 	m_colon = false;
 	
 	// Set the pin direction and default value.
