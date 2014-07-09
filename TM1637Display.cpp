@@ -49,14 +49,14 @@ const uint8_t digitToSegment[] = {
   0b01111111,    // 8
   0b01101111,    // 9
   0b01110111,    // A
-  0b01111100,    // B
+  0b01111100,    // b
   0b00111001,    // C
-  0b01000111,    // D
+  0b01011110,    // d
   0b01111001,    // E
   0b01110001     // F
   };
- 
-	
+
+
 TM1637Display::TM1637Display(uint8_t pinClk, uint8_t pinDIO)
 {
 	// Copy the pin numbers
