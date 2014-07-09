@@ -1,4 +1,3 @@
-
 //  Author: avishorp@gmail.com
 //
 //  This library is free software; you can redistribute it and/or
@@ -63,6 +62,9 @@ TM1637Display::TM1637Display(uint8_t pinClk, uint8_t pinDIO)
 	m_pinClk = pinClk;
 	m_pinDIO = pinDIO;
 	
+	// Set colon off by default? Or change the constructor?
+	m_colon = false;
+	
 	// Set the pin direction and default value.
 	// Both pins are set as inputs, allowing the pull-up resistors to pull them up
     pinMode(m_pinClk, INPUT);
@@ -76,6 +78,10 @@ void TM1637Display::setBrightness(uint8_t brightness)
 	m_brightness = brightness;
 }
 
+void TM1637Display::setColon(bool colon)
+{
+	m_colon = colon;
+}
 void TM1637Display::setSegments(const uint8_t segments[], uint8_t length, uint8_t pos)
 {
     // Write COMM1
@@ -121,6 +127,9 @@ void TM1637Display::showNumberDec(int num, bool leading_zero, uint8_t length, ui
 			leading = false;
 		}
 	}
+	//As seen on http://mbed.org/users/seeed/code/DigitDisplay/file/d3173c8bfd48/DigitDisplay.cpp lines 147, 148
+	if(m_colon)
+		digits[COLON_POSITION] |= 0x80;
 	
 	setSegments(digits + (4 - length), length, pos);
 }

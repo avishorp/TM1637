@@ -27,6 +27,9 @@
 #define SEG_F   0b00100000
 #define SEG_G   0b01000000
 
+// Defines which element's highest bit is the colon's control bit
+#define COLON_POSITION 1
+
 class TM1637Display {
 
 public:
@@ -59,6 +62,10 @@ public:
   //! @param pos The position from which to start the modification (0 - leftmost, 3 - rightmost)
   void setSegments(const uint8_t segments[], uint8_t length = 4, uint8_t pos = 0);
   
+  //! Sets the colon indicator mode on or off
+  //! @param colon When true, lights up the colon on next use of showNumberDec
+  void setColon(const bool colon);
+
   //! Displayes a decimal number
   //!
   //! Dispalyes the given argument as a decimal number
@@ -96,6 +103,8 @@ private:
 	uint8_t m_pinClk;
 	uint8_t m_pinDIO;
 	uint8_t m_brightness;
+  //indicates if the colon element should be on
+	bool m_colon;
 };
 
 #endif // __TM1637DISPLAY__
