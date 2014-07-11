@@ -70,7 +70,8 @@ public:
   //!        fits to the number of digits requested (for example, if two digits are to be displayed,
   //!        the number must be between 0 to 99)
   //! @param pos The position least significant digit (0 - leftmost, 3 - rightmost)
-  void showNumberDec(int num, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
+  //! @param colon When true, displays two dots between the 2nd and 3rd segments
+  void showNumberDec(int num, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0, bool colon = false);
   
   //! Translate a single digit into 7 segment code
   //!

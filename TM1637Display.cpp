@@ -99,7 +99,7 @@ void TM1637Display::setSegments(const uint8_t segments[], uint8_t length, uint8_
 	stop();
 }
  
-void TM1637Display::showNumberDec(int num, bool leading_zero, uint8_t length, uint8_t pos)
+void TM1637Display::showNumberDec(int num, bool leading_zero, uint8_t length, uint8_t pos, bool colon)
 {
 	uint8_t digits[4];
 	const static int divisors[] = { 1, 10, 100, 1000 };
@@ -119,6 +119,9 @@ void TM1637Display::showNumberDec(int num, bool leading_zero, uint8_t length, ui
 			digits[k] = encodeDigit(d);
 			num -= d * divisor;
 			leading = false;
+		}
+		if (colon && k == 1) {
+			digits[k] |= 0x80;
 		}
 	}
 	
