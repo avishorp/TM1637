@@ -42,7 +42,7 @@ public:
   //! The setting takes effect when a command is given to change the data being
   //! displayed.
   //!
-  //! @param brightness A number from 0 (lowes brightness) to 7 (highest brightness)
+  //! @param brightness A number from 0 (lowest brightness) to 7 (highest brightness)
   void setBrightness(uint8_t brightness);
   
   //! Display arbitrary data on the module
@@ -59,9 +59,9 @@ public:
   //! @param pos The position from which to start the modification (0 - leftmost, 3 - rightmost)
   void setSegments(const uint8_t segments[], uint8_t length = 4, uint8_t pos = 0);
   
-  //! Displayes a decimal number
+  //! Displays a decimal number
   //!
-  //! Dispalyes the given argument as a decimal number
+  //! Displays the given argument as a decimal number
   //!
   //! @param num The number to be shown
   //! @param leading_zero When true, leading zeros are displayed. Otherwise unnecessary digits are
