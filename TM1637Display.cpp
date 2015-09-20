@@ -73,7 +73,12 @@ TM1637Display::TM1637Display(uint8_t pinClk, uint8_t pinDIO)
 
 void TM1637Display::setBrightness(uint8_t brightness)
 {
-	m_brightness = brightness;
+  if(brightness > 0){
+  	m_brightness = ((brightness - 1) & 0x07) | 0x08;
+  } else {
+    m_brightness = 0x00;
+  }
+}
 
 void TM1637Display::setColon(bool colon)
 {
