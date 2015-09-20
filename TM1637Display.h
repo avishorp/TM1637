@@ -27,6 +27,9 @@
 #define SEG_F   0b00100000
 #define SEG_G   0b01000000
 
+// Defines which element's highest bit is the colon's control bit
+#define COLON_POSITION 1
+
 class TM1637Display {
 
 public:
@@ -42,8 +45,12 @@ public:
   //! The setting takes effect when a command is given to change the data being
   //! displayed.
   //!
-  //! @param brightness A number from 0 (lowes brightness) to 7 (highest brightness)
+  //! @param brightness A number from 0 (Off) to 8 (highest brightness)
   void setBrightness(uint8_t brightness);
+  
+  //! Sets the colon indicator mode on or off
+  //! @param colon When true, lights up the colon on next use of showNumberDec
+  void setColon(const bool colon);
   
   //! Display arbitrary data on the module
   //!
@@ -96,6 +103,7 @@ private:
 	uint8_t m_pinClk;
 	uint8_t m_pinDIO;
 	uint8_t m_brightness;
+  bool m_colon;
 };
 
 #endif // __TM1637DISPLAY__
