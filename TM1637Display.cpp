@@ -74,6 +74,10 @@ TM1637Display::TM1637Display(uint8_t pinClk, uint8_t pinDIO)
 void TM1637Display::setBrightness(uint8_t brightness)
 {
 	m_brightness = brightness;
+
+void TM1637Display::setColon(bool colon)
+{
+  m_colon = colon;
 }
 
 void TM1637Display::setSegments(const uint8_t segments[], uint8_t length, uint8_t pos)
@@ -86,11 +90,19 @@ void TM1637Display::setSegments(const uint8_t segments[], uint8_t length, uint8_
 	// Write COMM2 + first digit address
 	start();
 	writeByte(TM1637_I2C_COMM2 + (pos & 0x03));
-	
+  
 	// Write the data bytes
-	for (uint8_t k=0; k < length; k++) 
-	  writeByte(segments[k]);
-	  
+  uint8_t currentByte = 0x00; 
+	for (uint8_t k=0; k < length; k++){
+    currentByte = segments[k] & 0x7f;
+    if(k == COLON_POSITION){
+      if(m_colon){
+        currentByte |= 0x80;
+      }
+    }
+    writeByte(currentByte);
+  }
+	
 	stop();
 
 	// Write COMM3 + brightness
