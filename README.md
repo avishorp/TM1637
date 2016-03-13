@@ -25,3 +25,6 @@ The library provides a single class named TM1637Display. An instance of this cla
 
 The information given above is only a summary. Please refer to TM1637Display.h for more information. An example is included, demonstarting the operation of most of the functions.
 
+How to Display any Character on a 7 Segment LED Display
+http://www.learningaboutelectronics.com/Articles/How-to-display-any-character-on-a-7-segment-LED-display.php
+
