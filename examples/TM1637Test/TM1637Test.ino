@@ -26,32 +26,32 @@ void loop()
   int k;
   uint8_t data[] = { 0xff, 0xff, 0xff, 0xff };
   display.setBrightness(0x0f);
-  
+
   // All segments on
   display.setSegments(data);
   delay(TEST_DELAY);
-  
+
   // Selectively set different digits
   data[0] = 0b01001001;
   data[1] = display.encodeDigit(1);
   data[2] = display.encodeDigit(2);
   data[3] = display.encodeDigit(3);
-  
+
   for(k = 3; k >= 0; k--) {
 	display.setSegments(data, 1, k);
 	delay(TEST_DELAY);
 	}
-	
+
   display.setSegments(data+2, 2, 2);
   delay(TEST_DELAY);
-  
+
   display.setSegments(data+2, 2, 1);
   delay(TEST_DELAY);
-  
+
   display.setSegments(data+1, 3, 1);
   delay(TEST_DELAY);
- 
-  
+
+
   // Show decimal numbers with/without leading zeros
   bool lz = false;
   for (uint8_t z = 0; z < 2; z++) {
@@ -61,12 +61,18 @@ void loop()
 	}
 	lz = true;
   }
-  
+
   // Show decimal number whose length is smaller than 4
   for(k = 0; k < 4; k++)
 	data[k] = 0;
   display.setSegments(data);
-  
+
+	// Run through all the dots
+	for(k=0; k <= 4; k++) {
+		display.showNumberDecEx(0, (1 << k), true);
+		delay(TEST_DELAY);
+	}
+
   display.showNumberDec(153, false, 3, 1);
   delay(TEST_DELAY);
   display.showNumberDec(22, false, 2, 2);
@@ -88,9 +94,9 @@ void loop()
     display.setSegments(data);
     delay(TEST_DELAY);
   }
-    
+
   // Done!
   display.setSegments(SEG_DONE);
-  
+
   while(1);
 }
