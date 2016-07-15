@@ -24,9 +24,10 @@ extern "C" {
 #include <TM1637Display.h>
 #include <Arduino.h>
 
-#define TM1637_I2C_COMM1    0x40
-#define TM1637_I2C_COMM2    0xC0
-#define TM1637_I2C_COMM3    0x80
+#define TM1637_I2C_COMM1           0x40
+#define TM1637_I2C_COMM2           0xC0
+#define TM1637_I2C_COMM3           0x80
+#define TM1637_COLON_BIT_MASK      0x80
 
 //
 //      A
@@ -76,7 +77,7 @@ void TM1637Display::setBrightness(uint8_t brightness)
 	m_brightness = brightness;
 }
 
-void TM1637Display::setSegments(const uint8_t segments[], uint8_t length, uint8_t pos)
+void TM1637Display::setSegments(const uint8_t segments[], uint8_t length, uint8_t pos, boolean colon)
 {
     // Write COMM1
 	start();
@@ -87,10 +88,16 @@ void TM1637Display::setSegments(const uint8_t segments[], uint8_t length, uint8_
 	start();
 	writeByte(TM1637_I2C_COMM2 + (pos & 0x03));
 	
+	
 	// Write the data bytes
-	for (uint8_t k=0; k < length; k++) 
-	  writeByte(segments[k]);
-	  
+	for (uint8_t k=0; k < length; k++)
+	{
+		if (k==1 && colon)
+			writeByte(segments[k] | TM1637_COLON_BIT_MASK);
+		else
+			writeByte(segments[k]);
+		
+	}
 	stop();
 
 	// Write COMM3 + brightness

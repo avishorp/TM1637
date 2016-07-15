@@ -18,6 +18,7 @@
 #define __TM1637DISPLAY__
 
 #include <inttypes.h>
+#include <Arduino.h>
 
 #define SEG_A   0b00000001
 #define SEG_B   0b00000010
@@ -57,7 +58,7 @@ public:
   //! @param segments An array of size @ref length containing the raw segment values
   //! @param length The number of digits to be modified
   //! @param pos The position from which to start the modification (0 - leftmost, 3 - rightmost)
-  void setSegments(const uint8_t segments[], uint8_t length = 4, uint8_t pos = 0);
+  void setSegments(const uint8_t segments[], uint8_t length = 4, uint8_t pos = 0, boolean colon = false);
   
   //! Displayes a decimal number
   //!
