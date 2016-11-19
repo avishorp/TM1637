@@ -71,9 +71,9 @@ TM1637Display::TM1637Display(uint8_t pinClk, uint8_t pinDIO)
 	digitalWrite(m_pinDIO, LOW);
 }
 
-void TM1637Display::setBrightness(uint8_t brightness)
+void TM1637Display::setBrightness(uint8_t brightness, bool on)
 {
-	m_brightness = brightness;
+	m_brightness = (brightness & 0x7) | (on? 0x08 : 0x00);
 }
 
 void TM1637Display::setSegments(const uint8_t segments[], uint8_t length, uint8_t pos)

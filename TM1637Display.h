@@ -43,7 +43,8 @@ public:
   //! displayed.
   //!
   //! @param brightness A number from 0 (lowes brightness) to 7 (highest brightness)
-  void setBrightness(uint8_t brightness);
+  //! @param on Turn display on or off
+  void setBrightness(uint8_t brightness, bool on = true);
 
   //! Display arbitrary data on the module
   //!

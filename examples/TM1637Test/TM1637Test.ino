@@ -89,10 +89,20 @@ void loop()
   // Brightness Test
   for(k = 0; k < 4; k++)
 	data[k] = 0xff;
-  for(k = 0; k < 16; k++) {
+  for(k = 0; k < 7; k++) {
     display.setBrightness(k);
     display.setSegments(data);
     delay(TEST_DELAY);
+  }
+  
+  // On/Off test
+  for(k = 0; k < 4; k++) {
+    display.setBrightness(k, false);  // Turn off
+    display.setSegments(data);
+    delay(TEST_DELAY);
+    display.setBrightness(k, true); // Turn on
+    display.setSegments(data);
+    delay(TEST_DELAY);  
   }
 
   // Done!
