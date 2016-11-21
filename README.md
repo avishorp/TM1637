@@ -24,4 +24,3 @@ The library provides a single class named TM1637Display. An instance of this cla
 * `setBrightness` - Sets the brightness of the display
 
 The information given above is only a summary. Please refer to TM1637Display.h for more information. An example is included, demonstarting the operation of most of the functions.
-
