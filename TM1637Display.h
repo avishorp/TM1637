@@ -43,7 +43,8 @@ public:
   //! displayed.
   //!
   //! @param brightness A number from 0 (lowes brightness) to 7 (highest brightness)
-  void setBrightness(uint8_t brightness);
+  //! @param on Turn display on or off
+  void setBrightness(uint8_t brightness, bool on = true);
 
   //! Display arbitrary data on the module
   //!
@@ -69,7 +70,7 @@ public:
   //! @param length The number of digits to set. The user must ensure that the number to be shown
   //!        fits to the number of digits requested (for example, if two digits are to be displayed,
   //!        the number must be between 0 to 99)
-  //! @param pos The position least significant digit (0 - leftmost, 3 - rightmost)
+  //! @param pos The position most significant digit (0 - leftmost, 3 - rightmost)
   void showNumberDec(int num, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
 
   //! Displayes a decimal number, with dot control

@@ -69,7 +69,7 @@ void loop()
 
 	// Run through all the dots
 	for(k=0; k <= 4; k++) {
-		display.showNumberDecEx(0, (1 << k), true);
+		display.showNumberDecEx(0, (0x80 >> k), true);
 		delay(TEST_DELAY);
 	}
 
@@ -89,10 +89,20 @@ void loop()
   // Brightness Test
   for(k = 0; k < 4; k++)
 	data[k] = 0xff;
-  for(k = 0; k < 16; k++) {
+  for(k = 0; k < 7; k++) {
     display.setBrightness(k);
     display.setSegments(data);
     delay(TEST_DELAY);
+  }
+  
+  // On/Off test
+  for(k = 0; k < 4; k++) {
+    display.setBrightness(7, false);  // Turn off
+    display.setSegments(data);
+    delay(TEST_DELAY);
+    display.setBrightness(7, true); // Turn on
+    display.setSegments(data);
+    delay(TEST_DELAY);  
   }
 
   // Done!
