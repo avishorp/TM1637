@@ -97,10 +97,10 @@ void loop()
   
   // On/Off test
   for(k = 0; k < 4; k++) {
-    display.setBrightness(k, false);  // Turn off
+    display.setBrightness(7, false);  // Turn off
     display.setSegments(data);
     delay(TEST_DELAY);
-    display.setBrightness(k, true); // Turn on
+    display.setBrightness(7, true); // Turn on
     display.setSegments(data);
     delay(TEST_DELAY);  
   }
