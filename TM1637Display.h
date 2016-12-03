@@ -39,12 +39,10 @@ public:
 
   //! Sets the brightness of the display.
   //!
-  //! The setting takes effect when a command is given to change the data being
-  //! displayed.
+  //! The setting takes effect instantly keeping the data displayed.
   //!
-  //! @param brightness A number from 0 (lowes brightness) to 7 (highest brightness)
-  //! @param on Turn display on or off
-  void setBrightness(uint8_t brightness, bool on = true);
+  //! @param brightness A number from 0 (turn off) to 8 (highest brightness)
+  void setBrightness(uint8_t brightness);
 
   //! Display arbitrary data on the module
   //!
