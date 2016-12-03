@@ -25,7 +25,7 @@ void loop()
 {
   int k;
   uint8_t data[] = { 0xff, 0xff, 0xff, 0xff };
-  display.setBrightness(0x0f);
+  display.setBrightness(8);
 
   // All segments on
   display.setSegments(data);
@@ -87,20 +87,19 @@ void loop()
   delay(TEST_DELAY);
 
   // Brightness Test
-  for(k = 0; k < 4; k++)
-	data[k] = 0xff;
-  for(k = 0; k < 7; k++) {
+  for(k = 0; k < 4; k++) data[k] = 0xff;
+  display.setSegments(data);
+  for(k = 0; k < 9; k++) {
     display.setBrightness(k);
-    display.setSegments(data);
     delay(TEST_DELAY);
   }
   
   // On/Off test
   for(k = 0; k < 4; k++) {
-    display.setBrightness(7, false);  // Turn off
+    display.setBrightness(0);  // Turn off
     display.setSegments(data);
     delay(TEST_DELAY);
-    display.setBrightness(7, true); // Turn on
+    display.setBrightness(8); // Turn on
     display.setSegments(data);
     delay(TEST_DELAY);  
   }
