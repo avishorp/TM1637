@@ -133,7 +133,7 @@ void TM1637Display::showNumberDecEx(int num, uint8_t dots, bool leading_zero,
 		  }
 		  else if(leading_zero)
 		  {
-		      if(k == 0)
+		      if(negative && (k == 0))
 		      {
 		          digit = minusSegments;
 		      }
