@@ -112,6 +112,10 @@ protected:
 
    bool writeByte(uint8_t b);
 
+   void blankLeadingZeros(uint8_t* digits);
+   void showMinus(uint8_t* digits);
+   void showDots(uint8_t dots, uint8_t* digits);
+
 private:
 	uint8_t m_pinClk;
 	uint8_t m_pinDIO;

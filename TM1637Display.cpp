@@ -56,6 +56,7 @@ const uint8_t digitToSegment[] = {
   0b01110001     // F
   };
 
+static const uint8_t minusSegments = 0b01000000;
 
 TM1637Display::TM1637Display(uint8_t pinClk, uint8_t pinDIO)
 {
@@ -107,35 +108,38 @@ void TM1637Display::showNumberDec(int num, bool leading_zero, uint8_t length, ui
 void TM1637Display::showNumberDecEx(int num, uint8_t dots, bool leading_zero,
                                     uint8_t length, uint8_t pos)
 {
-  uint8_t digits[4];
-	const static int divisors[] = { 1, 10, 100, 1000 };
-	bool leading = true;
+    bool negative = false;
 
-	for(int8_t k = 0; k < 4; k++) {
-	    int divisor = divisors[4 - 1 - k];
-		int d = num / divisor;
-    uint8_t digit = 0;
+    if((num < 0) && (num > -1000))  //we gotta only 4 digits, can't display minus in case lower than -999
+    {
+        negative = true;
+        num = -num;
+    }
 
-		if (d == 0) {
-		  if (leading_zero || !leading || (k == 3))
-		      digit = encodeDigit(d);
-	      else
-		      digit = 0;
-		}
-		else {
-			digit = encodeDigit(d);
-			num -= d * divisor;
-			leading = false;
-		}
-    
-    // Add the decimal point/colon to the digit
-    digit |= (dots & 0x80); 
-    dots <<= 1;
-    
-    digits[k] = digit;
-	}
+    uint8_t digits[4];
 
-	setSegments(digits + (4 - length), length, pos);
+    for(int i = 3; i >= 0; --i)
+    {
+        digits[i] = encodeDigit(num % 10);
+        num /= 10;
+    }
+
+    if(!leading_zero)
+    {
+        blankLeadingZeros(digits);
+    }
+
+    if(negative)
+    {
+        showMinus(digits);
+    }
+
+    if(dots != 0)
+    {
+        showDots(dots, digits);
+    }
+
+    setSegments(digits + (4 - length), length, pos);
 }
 
 
@@ -203,6 +207,52 @@ bool TM1637Display::writeByte(uint8_t b)
   bitDelay();
 
   return ack;
+}
+
+void TM1637Display::blankLeadingZeros(uint8_t* digits)
+{
+    for(int i = 0; i < 4; ++i)
+    {
+        const uint8_t zeroSegments = encodeDigit(0);
+
+        if(digits[i] == zeroSegments)
+        {
+            digits[i] = 0;
+        }
+        else
+        {
+            break;
+        }
+    }
+}
+
+void TM1637Display::showMinus(uint8_t* digits)
+{
+    if(digits[0] == encodeDigit(0)) //if leading zero
+    {
+        digits[0] = minusSegments;
+    }
+    else
+    {
+        // we're starting from second digit, negative is not set when number is longer than 3 digits
+        for(int i = 1; i < 4; ++i)
+        {
+            if(digits[i] != 0)
+            {
+                digits[i - 1] = minusSegments;
+                break;
+            }
+        }
+    }
+}
+
+void TM1637Display::showDots(uint8_t dots, uint8_t* digits)
+{
+    for(int i = 0; i < 4; ++i)
+    {
+        digits[i] |= (dots & 0x80);
+        dots <<= 1;
+    }
 }
 
 uint8_t TM1637Display::encodeDigit(uint8_t digit)
