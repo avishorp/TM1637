@@ -141,7 +141,7 @@ void TM1637Display::showNumberDecEx(int num, uint8_t dots, bool leading_zero,
 
 void TM1637Display::bitDelay()
 {
-	delayMicroseconds(50);
+	delayMicroseconds(5);
 }
 
 void TM1637Display::start()
