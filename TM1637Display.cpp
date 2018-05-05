@@ -104,18 +104,19 @@ void TM1637Display::showNumberDec(int num, bool leading_zero, uint8_t length, ui
   showNumberDecEx(num, 0, leading_zero, length, pos);
 }
 
-void TM1637Display::showNumberDecEx(int num, uint8_t dots, bool leading_zero,
-                                    uint8_t length, uint8_t pos)
+void TM1637Display::showNumberHex(int num, bool leading_zero, uint8_t length, uint8_t pos)
 {
+  showNumberHexEx(num, 0, leading_zero, length, pos);
+}
+
+void TM1637Display::showNumberDecEx(int num, uint8_t dots, bool leading_zero, uint8_t length, uint8_t pos) {
   uint8_t digits[4];
 	const static int divisors[] = { 1, 10, 100, 1000 };
 	bool leading = true;
-
 	for(int8_t k = 0; k < 4; k++) {
 	    int divisor = divisors[4 - 1 - k];
 		int d = num / divisor;
-    uint8_t digit = 0;
-
+        uint8_t digit = 0;
 		if (d == 0) {
 		  if (leading_zero || !leading || (k == 3))
 		      digit = encodeDigit(d);
@@ -126,18 +127,41 @@ void TM1637Display::showNumberDecEx(int num, uint8_t dots, bool leading_zero,
 			digit = encodeDigit(d);
 			num -= d * divisor;
 			leading = false;
-		}
-    
+		}    
     // Add the decimal point/colon to the digit
     digit |= (dots & 0x80); 
     dots <<= 1;
-    
     digits[k] = digit;
 	}
-
 	setSegments(digits + (4 - length), length, pos);
 }
 
+void TM1637Display::showNumberHexEx(int num, uint8_t dots, bool leading_zero, uint8_t length, uint8_t pos) {
+	uint8_t digits[4];
+	const static int divisors[] = { 0x1, 0x10, 0x100, 0x1000 };
+	bool leading = true;
+	for (int8_t k = 0; k < 4; k++) {
+		int divisor = divisors[4 - 1 - k];
+		int d = num / divisor;
+		uint8_t digit = 0;
+		if (d == 0) {
+			if (leading_zero || !leading || (k == 3))
+				digit = encodeDigit(d);
+			else
+				digit = 0;
+		}
+		else {
+			digit = encodeDigit(d);
+			num -= d * divisor;
+			leading = false;
+		}
+		// Add the decimal point/colon to the digit
+		digit |= (dots & 0x80); 
+		dots <<= 1;  
+		digits[k] = digit;
+	}
+	setSegments(digits + (4 - length), length, pos);
+}
 
 void TM1637Display::bitDelay()
 {
@@ -163,22 +187,19 @@ void TM1637Display::stop()
 bool TM1637Display::writeByte(uint8_t b)
 {
   uint8_t data = b;
-
   // 8 Data Bits
   for(uint8_t i = 0; i < 8; i++) {
     // CLK low
     pinMode(m_pinClk, OUTPUT);
     bitDelay();
-
 	// Set data bit
     if (data & 0x01)
       pinMode(m_pinDIO, INPUT);
     else
       pinMode(m_pinDIO, OUTPUT);
-
+	  
     bitDelay();
-
-	// CLK high
+	  // CLK high
     pinMode(m_pinClk, INPUT);
     bitDelay();
     data = data >> 1;
