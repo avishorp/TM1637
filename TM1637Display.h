@@ -75,7 +75,7 @@ public:
 
   //! Displayes a Hex number
   //!
-  //! @param num The number to be shown (translated in Hex number)
+  //! @param num The number to be shown (translated in Hex format)
   //! @param leading_zero When true, leading zeros are displayed. Otherwise unnecessary digits are
   //!        blank
   //! @param length The number of digits to set. The user must ensure that the number to be shown
