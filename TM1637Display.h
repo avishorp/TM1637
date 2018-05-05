@@ -73,6 +73,17 @@ public:
   //! @param pos The position most significant digit (0 - leftmost, 3 - rightmost)
   void showNumberDec(int num, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
 
+  //! Displayes a Hex number
+  //!
+  //! @param num The number to be shown (translated in Hex number)
+  //! @param leading_zero When true, leading zeros are displayed. Otherwise unnecessary digits are
+  //!        blank
+  //! @param length The number of digits to set. The user must ensure that the number to be shown
+  //!        fits to the number of digits requested (for example, if two digits are to be displayed,
+  //!        the number must be between 0 to 99)
+  //! @param pos The position most significant digit (0 - leftmost, 3 - rightmost)
+  void showNumberHex(int num, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
+
   //! Displayes a decimal number, with dot control
   //!
   //! Dispalyes the given argument as a decimal number. The dots between the digits (or colon)
