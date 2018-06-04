@@ -56,6 +56,8 @@ const uint8_t digitToSegment[] = {
   0b01110001     // F
   };
 
+static const uint8_t minusSegments = 0b01000000;
+
 
 TM1637Display::TM1637Display(uint8_t pinClk, uint8_t pinDIO)
 {
@@ -111,16 +113,50 @@ void TM1637Display::showNumberDecEx(int num, uint8_t dots, bool leading_zero,
 	const static int divisors[] = { 1, 10, 100, 1000 };
 	bool leading = true;
 
+	bool negative = false;
+
+	if((num < 0) && (num > -1000))	//we gotta only 4 digits, can't display minus in case lower than -999
+	{
+		negative = true;
+		num = -num;
+	}
+
 	for(int8_t k = 0; k < 4; k++) {
 	    int divisor = divisors[4 - 1 - k];
 		int d = num / divisor;
     uint8_t digit = 0;
 
 		if (d == 0) {
-		  if (leading_zero || !leading || (k == 3))
+		  if (!leading || (k == 3))
+		  {
 		      digit = encodeDigit(d);
-	      else
-		      digit = 0;
+		  }
+		  else if(leading_zero)
+		  {
+		      if(negative && (k == 0))
+		      {
+		          digit = minusSegments;
+		      }
+		      else
+		      {
+		          digit = encodeDigit(d);
+		      }
+		  }
+                  else
+                  {
+                      if (negative)
+                      {
+                          if (k > 0)
+                          {
+                              digits[k - 1] = 0;
+                          }
+                          digit = minusSegments;
+                      }
+                      else
+                      {
+                          digit = 0;
+                      }
+                  }
 		}
 		else {
 			digit = encodeDigit(d);
