@@ -79,11 +79,17 @@ public:
   //! can be individually controlled
   //!
   //! @param num The number to be shown
-  //! @param dots Dot enable. The argument is a bitmask, with each bit corresponding to a dot
-  //!        between the digits (or colon mark, as implemented by each module). The MSB is the 
-  //!        leftmost dot of the digit being update. For example, if pos is 1, the MSB of dots
-  //!        will correspond the dot near digit no. 2 from the left. Dots are updated only on
-  //!        those digits actually being update (that is, no more than len digits)
+  //! @param dots Dot/Colon enable. The argument is a bitmask, with each bit corresponding to a dot
+  //!        between the digits (or colon mark, as implemented by each module). i.e.
+  //!        For displays with dots between each digit:
+  //!        * 0.000 (0b10000000)
+  //!        * 00.00 (0b01000000)
+  //!        * 000.0 (0b00100000)
+  //!        * 0.0.0.0 (0b11100000)
+  //!        For displays with just a colon:
+  //!        * 00:00 (0b01000000)
+  //!        For displays with dots and colons colon:
+  //!        * 0.0:0.0 (0b11100000)
   //! @param leading_zero When true, leading zeros are displayed. Otherwise unnecessary digits are
   //!        blank
   //! @param length The number of digits to set. The user must ensure that the number to be shown
