@@ -105,6 +105,20 @@ void loop()
     delay(TEST_DELAY);  
   }
 
+  // Negative numbers
+  display.showNumberDec(-1);
+  delay(TEST_DELAY);
+  display.showNumberDec(-12);
+  delay(TEST_DELAY);
+  display.showNumberDec(-123);
+  delay(TEST_DELAY);
+  display.showNumberDec(-1, true);
+  delay(TEST_DELAY);
+  display.showNumberDec(-12, true);
+  delay(TEST_DELAY);
+  display.showNumberDec(-123, true);
+  delay(TEST_DELAY);
+
   // Done!
   display.setSegments(SEG_DONE);
 
