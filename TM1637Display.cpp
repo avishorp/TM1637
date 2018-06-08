@@ -211,7 +211,7 @@ bool TM1637Display::writeByte(uint8_t b)
 
 void TM1637Display::blankLeadingZeros(uint8_t* digits)
 {
-    for(int i = 0; i < 4; ++i)
+    for(int i = 0; i < 3; ++i)
     {
         const uint8_t zeroSegments = encodeDigit(0);
 
