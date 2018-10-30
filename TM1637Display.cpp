@@ -241,43 +241,6 @@ bool TM1637Display::writeByte(uint8_t b)
   return ack;
 }
 
-void TM1637Display::blankLeadingZeros(uint8_t* digits)
-{
-    for(int i = 0; i < 3; ++i)
-    {
-        const uint8_t zeroSegments = encodeDigit(0);
-
-        if(digits[i] == zeroSegments)
-        {
-            digits[i] = 0;
-        }
-        else
-        {
-            break;
-        }
-    }
-}
-
-void TM1637Display::showMinus(uint8_t* digits)
-{
-    if(digits[0] == encodeDigit(0)) //if leading zero
-    {
-        digits[0] = minusSegments;
-    }
-    else
-    {
-        // we're starting from second digit, negative is not set when number is longer than 3 digits
-        for(int i = 1; i < 4; ++i)
-        {
-            if(digits[i] != 0)
-            {
-                digits[i - 1] = minusSegments;
-                break;
-            }
-        }
-    }
-}
-
 void TM1637Display::showDots(uint8_t dots, uint8_t* digits)
 {
     for(int i = 0; i < 4; ++i)

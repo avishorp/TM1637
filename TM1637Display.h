@@ -146,8 +146,6 @@ protected:
 
    bool writeByte(uint8_t b);
 
-   void blankLeadingZeros(uint8_t* digits);
-   void showMinus(uint8_t* digits);
    void showDots(uint8_t dots, uint8_t* digits);
    
    void showNumberBaseEx(int8_t base, uint16_t num, uint8_t dots = 0, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
