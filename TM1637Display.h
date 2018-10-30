@@ -27,6 +27,8 @@
 #define SEG_F   0b00100000
 #define SEG_G   0b01000000
 
+#define DEFAULT_BIT_DELAY  100
+
 class TM1637Display {
 
 public:
@@ -35,7 +37,9 @@ public:
   //!
   //! @param pinClk - The number of the digital pin connected to the clock pin of the module
   //! @param pinDIO - The number of the digital pin connected to the DIO pin of the module
-  TM1637Display(uint8_t pinClk, uint8_t pinDIO);
+  //! @param bitDelay - The delay, in microseconds, between bit transition on the serial
+  //!                   bus connected to the display
+  TM1637Display(uint8_t pinClk, uint8_t pinDIO, unsigned int bitDelay = DEFAULT_BIT_DELAY);
 
   //! Sets the brightness of the display.
   //!
@@ -155,6 +159,7 @@ private:
 	uint8_t m_pinClk;
 	uint8_t m_pinDIO;
 	uint8_t m_brightness;
+	unsigned int m_bitDelay;
 };
 
 #endif // __TM1637DISPLAY__
