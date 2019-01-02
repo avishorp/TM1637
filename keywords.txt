@@ -1,0 +1,31 @@
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+TM1637Display		KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+setBrightness		KEYWORD2
+setSegments		KEYWORD2
+clear			KEYWORD2
+showNumberDec		KEYWORD2
+showNumberDecEx		KEYWORD2
+showNumberHexEx		KEYWORD2
+encodeDigit		KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+SEG_A			LITERAL1
+SEG_B			LITERAL1
+SEG_C			LITERAL1
+SEG_D			LITERAL1
+SEG_E			LITERAL1
+SEG_F			LITERAL1
+SEG_G			LITERAL1
+SEG_DP			LITERAL1
+
