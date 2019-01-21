@@ -4,7 +4,7 @@
   "description": "Arduino library for TM1637 (LED Driver)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/avishorp/TM1637.git"
+    "url": "https://github.com/gdampf/TM1637.git"
   },
   "frameworks": "arduino",
   "platforms": [
