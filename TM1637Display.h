@@ -15,8 +15,8 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-#ifndef __TM1637Display__
-#define __TM1637Display__
+#ifndef __TM1637DISPLAY__
+#define __TM1637DISPLAY__
 
 #include <inttypes.h>
 
@@ -27,6 +27,7 @@
 #define SEG_E   0b00010000
 #define SEG_F   0b00100000
 #define SEG_G   0b01000000
+#define SEG_DP  0b10000000
 
 #define DEFAULT_BIT_DELAY  100
 
@@ -186,4 +187,4 @@ private:
   uint8_t m_KeyCode;
 };
 
-#endif // __TM1637Display__
+#endif // __TM1637DISPLAY__
