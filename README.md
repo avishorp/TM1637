@@ -5,7 +5,7 @@ Arduino library for TM1637 (LED Driver)
 
 Description
 -----------
-An Arduino library for 7-segment display modules based on the TM1637 chip, such as Seeed Studio's [Grove 4 digit display](http://www.seeedstudio.com/depot/grove-4digit-display-p-1198.html). The TM1637 chip also has keyboard input capability, but it's not implemented in this library.
+An Arduino library for 7-segment display modules based on the TM1637 chip, such as Seeed Studio's [Grove 4 digit display](http://www.seeedstudio.com/depot/grove-4digit-display-p-1198.html), as well as for discrete TM1637 assemblies, like drawn in the manual (see docs). The TM1637 chip also has keyboard input capability, and it's now implemented in this library.
 
 Hardware Connection
 -------------------
@@ -23,5 +23,7 @@ The library provides a single class named TM1637Display. An instance of this cla
 * `showNumberDec` - Display a decimal number
 * `showNumberDecEx` - Display a decimal number with decimal points or colon
 * `setBrightness` - Sets the brightness of the display
+* `getKeyCode` - Read the Keypad and returns a value 0-16, where 0 means 'no key'
+* `lastKeyCode` - Returns the last read key (read during last setSegments or getKeyCode) and returns a value 0-16, where 0 means 'no key'
 
 The information given above is only a summary. Please refer to TM1637Display.h for more information. An example is included, demonstrating the operation of most of the functions.
