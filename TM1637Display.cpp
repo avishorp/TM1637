@@ -222,11 +222,13 @@ void TM1637Display::start()
 
 void TM1637Display::stop()
 {
-  pinMode(m_pinClk, OUTPUT);
-  bitDelay();
   pinMode(m_pinDIO, OUTPUT);
   bitDelay();
+  pinMode(m_pinClk, OUTPUT);
+  bitDelay();
+  bitDelay();
   pinMode(m_pinClk, INPUT);
+  bitDelay();
   bitDelay();
   pinMode(m_pinDIO, INPUT);
   bitDelay();
