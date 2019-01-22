@@ -257,7 +257,7 @@ void loop()
 #endif
       ;i--) {
       display.showNumberDec(i, false);
-      // delay(1);
+      delay(8); // adjusted to around 1/100 sec cycle-time
     }
     display.clear();
 
