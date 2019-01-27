@@ -1,4 +1,5 @@
 //  Author: avishorp@gmail.com
+//  Extended to 6 digits and key-scan: Guido Dampf
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -40,7 +41,7 @@ public:
   //! @param pinDIO - The number of the digital pin connected to the DIO pin of the module
   //! @param bitDelay - The delay, in microseconds, between bit transition on the serial
   //!                   bus connected to the display
-  TM1637Display(uint8_t pinClk, uint8_t pinDIO, unsigned int bitDelay = DEFAULT_BIT_DELAY);
+  TM1637Display(uint8_t pinClk, uint8_t pinDIO, unsigned int bitDelay = DEFAULT_BIT_DELAY, uint8_t noDigits = 4);
 
   //! Sets the brightness of the display.
   //!
@@ -63,7 +64,7 @@ public:
   //! @param segments An array of size @ref length containing the raw segment values
   //! @param length The number of digits to be modified
   //! @param pos The position from which to start the modification (0 - leftmost, 3 - rightmost)
-  void setSegments(const uint8_t segments[], uint8_t length = 4, uint8_t pos = 0);
+  void setSegments(const uint8_t segments[], uint8_t length = 0, uint8_t pos = 0);
 
   //! Clear the display
   void clear();
@@ -79,7 +80,7 @@ public:
   //!        fits to the number of digits requested (for example, if two digits are to be displayed,
   //!        the number must be between 0 to 99)
   //! @param pos The position of the most significant digit (0 - leftmost, 3 - rightmost)
-  void showNumberDec(int num, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
+  void showNumberDec(long num, bool leading_zero = false, uint8_t length = 0, uint8_t pos = 0);
 
   //! Display a decimal number, with dot control
   //!
@@ -104,7 +105,7 @@ public:
   //!        fits to the number of digits requested (for example, if two digits are to be displayed,
   //!        the number must be between 0 to 99)
   //! @param pos The position of the most significant digit (0 - leftmost, 3 - rightmost)
-  void showNumberDecEx(int num, uint8_t dots = 0, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
+  void showNumberDecEx(long num, uint8_t dots = 0, bool leading_zero = false, uint8_t length = 0, uint8_t pos = 0);
 
   //! Display a hexadecimal number, with dot control
   //!
@@ -129,7 +130,7 @@ public:
   //!        fits to the number of digits requested (for example, if two digits are to be displayed,
   //!        the number must be between 0 to 99)
   //! @param pos The position of the most significant digit (0 - leftmost, 3 - rightmost)
-  void showNumberHexEx(uint16_t num, uint8_t dots = 0, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
+  void showNumberHexEx(uint16_t num, uint8_t dots = 0, bool leading_zero = false, uint8_t length = 0, uint8_t pos = 0);
 
   //! Translate a single digit into 7 segment code
   //!
@@ -142,6 +143,25 @@ public:
   //!         bit 6 - segment G; bit 7 - always zero)
   uint8_t encodeDigit(uint8_t digit);
 
+  //! Read a byte from register (usually containing the kay scanning code)
+  //!
+  //! The method sends the read key command and read the result into a variable
+  //! the result is tranfered into a number (0-16) and returned, 
+  //! while 0 means - no key pressed
+  //!
+  //! @return A code representing the 16 buttons
+  uint8_t getKeyCode();
+
+  //! Read the last byte read from register (usually containing the kay scanning code)
+  //!
+  //! The method just re read the last result, which is always read again, 
+  //! when display changed (setSegments called) or getKeyCode called
+  //! the result is tranfered into a number (0-16) and returned, 
+  //! while 0 means - no key pressed
+  //!
+  //! @return A code representing the 16 buttons
+  uint8_t lastKeyCode();
+
 protected:
    void bitDelay();
 
@@ -151,16 +171,20 @@ protected:
 
    bool writeByte(uint8_t b);
 
+   uint8_t readByte();
+
    void showDots(uint8_t dots, uint8_t* digits);
-   
-   void showNumberBaseEx(int8_t base, uint16_t num, uint8_t dots = 0, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
+
+   void showNumberBaseEx(int8_t base, uint32_t num, uint8_t dots = 0, bool leading_zero = false, uint8_t length = 0, uint8_t pos = 0);
 
 
 private:
-	uint8_t m_pinClk;
-	uint8_t m_pinDIO;
-	uint8_t m_brightness;
-	unsigned int m_bitDelay;
+  uint8_t m_pinClk;
+  uint8_t m_pinDIO;
+  uint8_t m_brightness;
+  uint8_t m_noDigits;
+  unsigned int m_bitDelay;
+  uint8_t m_KeyCode;
 };
 
 #endif // __TM1637DISPLAY__
