@@ -18,7 +18,7 @@
 #define __TM1637DISPLAY__
 
 #include <inttypes.h>
-
+#define SEG_NO 	0b00000001
 #define SEG_A   0b00000001
 #define SEG_B   0b00000010
 #define SEG_C   0b00000100
