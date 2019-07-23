@@ -77,7 +77,7 @@ void loop()
   display.showNumberDec(14, false, 2, 1); // Expect: _14_
   delay(TEST_DELAY);
   display.clear();
-  display.showNumberDec(4, true, 2, 2);  // Expect: 04__
+  display.showNumberDec(4, true, 2, 2);  // Expect: __04
   delay(TEST_DELAY);
   display.showNumberDec(-1, false);  // Expect: __-1
   delay(TEST_DELAY);
