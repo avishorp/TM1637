@@ -70,7 +70,7 @@ public:
 
   //! Display a decimal number
   //!
-  //! Dispaly the given argument as a decimal number.
+  //! Display the given argument as a decimal number.
   //!
   //! @param num The number to be shown
   //! @param leading_zero When true, leading zeros are displayed. Otherwise unnecessary digits are
@@ -83,7 +83,7 @@ public:
 
   //! Display a decimal number, with dot control
   //!
-  //! Dispaly the given argument as a decimal number. The dots between the digits (or colon)
+  //! Display the given argument as a decimal number. The dots between the digits (or colon)
   //! can be individually controlled.
   //!
   //! @param num The number to be shown
@@ -108,7 +108,7 @@ public:
 
   //! Display a hexadecimal number, with dot control
   //!
-  //! Dispaly the given argument as a hexadecimal number. The dots between the digits (or colon)
+  //! Display the given argument as a hexadecimal number. The dots between the digits (or colon)
   //! can be individually controlled.
   //!
   //! @param num The number to be shown
@@ -133,7 +133,7 @@ public:
 
   //! Display a string
   //!
-  //! Displays the given alphanumeric string.  The string can be of any length.  If it's longer than
+  //! Display the given alphanumeric string.  The string can be of any length.  If it's longer than
   //! the display or the length parameter, it gets cut.  If it's shorter, the remaining chars are
   //! cleared.
   //!
