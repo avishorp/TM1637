@@ -56,6 +56,20 @@ const uint8_t digitToSegment[] = {
   0b01110001     // F
   };
 
+static const uint8_t lowercaseToSegment[] = {
+    0b1011111, 0b1111100, 0b1011000, 0b1011110, 0b1111011, 0b1110001,
+    0b1101111, 0b1110100, 0b0000100, 0b0001110, 0b1110100, 0b0110000,
+    0b1010101, 0b1010100, 0b1011100, 0b1110011, 0b1100111, 0b1010000,
+    0b1101101, 0b1111000, 0b0011100, 0b1100010, 0b1101010, 0b1010010,
+    0b1100110, 0b1011011 };
+
+static const uint8_t uppercaseToSegment[] = {
+    0b1110111, 0b1111111, 0b0111001, 0b0111111, 0b1111001, 0b1110001,
+    0b0111101, 0b1110110, 0b0000110, 0b0011110, 0b1110110, 0b0111000,
+    0b1010101, 0b1010100, 0b0111111, 0b1110011, 0b1100111, 0b1110111,
+    0b1101101, 0b0110001, 0b0111110, 0b1110010, 0b1111110, 0b1010010,
+    0b1101110, 0b1011011 };
+
 static const uint8_t minusSegments = 0b01000000;
 
 TM1637Display::TM1637Display(uint8_t pinClk, uint8_t pinDIO, unsigned int bitDelay)
@@ -254,4 +268,29 @@ void TM1637Display::showDots(uint8_t dots, uint8_t* digits)
 uint8_t TM1637Display::encodeDigit(uint8_t digit)
 {
 	return digitToSegment[digit & 0x0f];
+}
+
+uint8_t TM1637Display::encodeChar(char c)
+{
+    if (c >= '0' && c <= '9')
+        return encodeDigit(c - '0');
+
+    if (c >= 'a' && c <= 'z')
+        return lowercaseToSegment[c - 'a'];
+
+    if (c >= 'A' && c <= 'Z')
+        return uppercaseToSegment[c - 'A'];
+
+    if (c == '-')
+        return minusSegments;
+
+    return 0;
+}
+
+void TM1637Display::showText(const char * text, uint8_t length, uint8_t pos)
+{
+    uint8_t segments[] = { 0, 0, 0, 0 };
+    for (int i = 0; i < length && i < 4 && text[i]; ++i)
+        segments[i] = encodeChar(text[i]);
+    setSegments(segments, length, pos);
 }

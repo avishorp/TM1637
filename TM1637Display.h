@@ -131,6 +131,17 @@ public:
   //! @param pos The position of the most significant digit (0 - leftmost, 3 - rightmost)
   void showNumberHexEx(uint16_t num, uint8_t dots = 0, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
 
+  //! Display a string
+  //!
+  //! Displays the given alphanumeric string.  The string can be of any length.  If it's longer than
+  //! the display or the length parameter, it gets cut.  If it's shorter, the remaining chars are
+  //! cleared.
+  //!
+  //! @param num The string to be displayed
+  //! @param length The number of digits to set.
+  //! @param pos The position of the first character (0 - leftmost, 3 - rightmost)
+  void showText(const char * text, uint8_t length = 4, uint8_t pos = 0);
+
   //! Translate a single digit into 7 segment code
   //!
   //! The method accepts a number between 0 - 15 and converts it to the
@@ -141,6 +152,19 @@ public:
   //! @return A code representing the 7 segment image of the digit (LSB - segment A;
   //!         bit 6 - segment G; bit 7 - always zero)
   uint8_t encodeDigit(uint8_t digit);
+
+  //! Translate a single char into 7 segment code
+  //!
+  //! The method accepts an alphanumeric character and converts it to the
+  //! code required to display the number on a 7 segment display.
+  //! Besides alphanumeric characters, the dash/minus sign is converted
+  //! properly to a code.  For all other characters, 0 is returned, which
+  //! means that none of the 7 segments is lit.
+  //!
+  //! @param digit An alphanumeric character or a dash
+  //! @return A code representing the 7 segment image of the char (LSB - segment A;
+  //!         bit 6 - segment G; bit 7 - always zero)
+  uint8_t encodeChar(char c);
 
 protected:
    void bitDelay();

@@ -14,7 +14,9 @@ clear			KEYWORD2
 showNumberDec		KEYWORD2
 showNumberDecEx		KEYWORD2
 showNumberHexEx		KEYWORD2
+showText		KEYWORD2
 encodeDigit		KEYWORD2
+encodeChar		KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
