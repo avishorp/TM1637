@@ -9,11 +9,11 @@
 #define TEST_DELAY   2000
 
 const uint8_t SEG_DONE[] = {
-	SEG_B | SEG_C | SEG_D | SEG_E | SEG_G,           // d
-	SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F,   // O
-	SEG_C | SEG_E | SEG_G,                           // n
-	SEG_A | SEG_D | SEG_E | SEG_F | SEG_G            // E
-	};
+  SEG_B | SEG_C | SEG_D | SEG_E | SEG_G,           // d
+  SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F,   // O
+  SEG_C | SEG_E | SEG_G,                           // n
+  SEG_A | SEG_D | SEG_E | SEG_F | SEG_G            // E
+};
 
 TM1637Display display(CLK, DIO);
 
@@ -41,10 +41,10 @@ void loop()
   delay(TEST_DELAY);
 
   /*
-  for(k = 3; k >= 0; k--) {
-	display.setSegments(data, 1, k);
-	delay(TEST_DELAY);
-	}
+    for(k = 3; k >= 0; k--) {
+    display.setSegments(data, 1, k);
+    delay(TEST_DELAY);
+    }
   */
 
   display.clear();
@@ -65,8 +65,8 @@ void loop()
   delay(TEST_DELAY);
   display.showNumberDec(0, true);  // Expect: 0000
   delay(TEST_DELAY);
-	display.showNumberDec(1, false); // Expect: ___1
-	delay(TEST_DELAY);
+  display.showNumberDec(1, false); // Expect: ___1
+  delay(TEST_DELAY);
   display.showNumberDec(1, true);  // Expect: 0001
   delay(TEST_DELAY);
   display.showNumberDec(301, false); // Expect: _301
@@ -97,22 +97,22 @@ void loop()
   display.clear();
   display.showNumberHexEx(0xd1, 0, true, 2); // Expect: d1__
   delay(TEST_DELAY);
-  
-	// Run through all the dots
-	for(k=0; k <= 4; k++) {
-		display.showNumberDecEx(0, (0x80 >> k), true);
-		delay(TEST_DELAY);
-	}
+
+  // Run through all the dots
+  for(k=0; k <= 4; k++) {
+    display.showNumberDecEx(0, (0x80 >> k), true);
+    delay(TEST_DELAY);
+  }
 
   // Brightness Test
   for(k = 0; k < 4; k++)
-	data[k] = 0xff;
+    data[k] = 0xff;
   for(k = 0; k < 7; k++) {
     display.setBrightness(k);
     display.setSegments(data);
     delay(TEST_DELAY);
   }
-  
+
   // On/Off test
   for(k = 0; k < 4; k++) {
     display.setBrightness(7, false);  // Turn off
@@ -120,10 +120,26 @@ void loop()
     delay(TEST_DELAY);
     display.setBrightness(7, true); // Turn on
     display.setSegments(data);
-    delay(TEST_DELAY);  
+    delay(TEST_DELAY);
   }
 
- 
+  // String tests
+  display.clear();
+  display.showString("String Test 1234");
+  delay(TEST_DELAY);
+  display.clear();
+  display.showString("25\xB0\C");
+  delay(TEST_DELAY);
+  display.clear();
+  display.showString("abcdefghijklmnopqrstuvwxyz.-=ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+  delay(TEST_DELAY);
+  display.clear();
+  display.showString("The");
+  delay(TEST_DELAY);
+  display.clear();
+  display.showString("End");
+  delay(TEST_DELAY);
+
   // Done!
   display.setSegments(SEG_DONE);
 

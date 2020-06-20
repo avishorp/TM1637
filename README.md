@@ -22,6 +22,7 @@ The library provides a single class named TM1637Display. An instance of this cla
 * `setSegments` - Set the raw value of the segments of each digit
 * `showNumberDec` - Display a decimal number
 * `showNumberDecEx` - Display a decimal number with decimal points or colon
+* `showString` - Display a ASCII string of text with scrolling  
 * `setBrightness` - Sets the brightness of the display
 
 The information given above is only a summary. Please refer to TM1637Display.h for more information. An example is included, demonstrating the operation of most of the functions.

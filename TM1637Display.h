@@ -142,6 +142,27 @@ public:
   //!         bit 6 - segment G; bit 7 - always zero)
   uint8_t encodeDigit(uint8_t digit);
 
+  //! Display a string
+  //!
+  //! Dispaly the given string and if more than 4 characters, will scroll message on display
+  //!
+  //! @param s The string to be shown
+  //! @param scrollDelay  The delay, in microseconds to wait before scrolling to next frame
+  //! @param length The number of digits to set. 
+  //! @param pos The position of the most significant digit (0 - leftmost, 3 - rightmost)
+  void showString(char s[], unsigned int scrollDelay = 200, uint8_t length = 4, uint8_t pos = 0);
+ 
+  //! Translate a single ASCII character into 7 segment code
+  //!
+  //! The method accepts a number between 0 - 255 and converts it to the
+  //! code required to display the number on a 7 segment display.
+  //! ASCII Characters between 0-32 and 128-255 are blank.
+  //!
+  //! @param chr A character ASCII value 
+  //! @return A code representing the 7 segment image of the digit (LSB - segment A;
+  //!         bit 6 - segment G; bit 7 - always zero)
+  uint8_t TM1637Display::encodeASCII(uint8_t chr);
+
 protected:
    void bitDelay();
 
