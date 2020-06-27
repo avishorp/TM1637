@@ -167,12 +167,13 @@ void TM1637Display::showNumberBaseEx(int8_t base, uint16_t num, uint8_t dots, bo
 
 			num /= base;
 		}
-
-		if(dots != 0)
-		{
-			showDots(dots, digits);
-		}
     }
+	
+	if(dots != 0)
+	{
+		showDots(dots, digits);
+	}
+    
     setSegments(digits, length, pos);
 }
 
