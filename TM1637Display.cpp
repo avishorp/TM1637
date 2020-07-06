@@ -56,6 +56,62 @@ const uint8_t digitToSegment[] = {
   0b01110001     // F
   };
 
+const uint8_t letterToSegment[] = {
+ // XGFEDCBA
+  0b01110111,    // A
+  0b01111111,    // B
+  0b00111001,    // C
+  0b00011111,    // D
+  0b01111001,    // E
+  0b01110001,    // F
+  0b00111101,    // G
+  0b01110110,    // H
+  0b00110000,    // I
+  0b00001110,    // J
+  0b01111010,    // K
+  0b00111000,    // L
+  0b00010101,    // M
+  0b01110110,    // N
+  0b00111111,    // O
+  0b01110011,    // P
+  0b00111011,    // Q
+  0b01111011,    // R
+  0b01101101,    // S
+  0b00110001,    // T
+  0b00111110,    // U
+  0b00101110,    // V
+  0b01101010,    // W
+  0b01001001,    // X
+  0b01101110,    // Y
+  0b01011011,    // Z
+  0b01001100,    // a
+  0b01111100,    // b
+  0b01011000,    // c
+  0b01011110,    // d
+  0b00011000,    // e
+  0b01110001,    // f
+  0b01011001,    // g
+  0b00110100,    // h
+  0b00010000,    // i
+  0b00001110,    // j
+  0b01101001,    // k
+  0b00110000,    // l
+  0b00010101,    // m
+  0b01010100,    // n
+  0b01011100,    // o
+  0b01110011,    // p
+  0b01100111,    // q
+  0b01010000,    // r
+  0b01001000,    // s
+  0b01111000,    // t
+  0b00011100,    // u
+  0b00001100,    // v
+  0b00101010,    // w
+  0b01001000,    // x
+  0b01101110,    // y
+  0b01001000     // z
+};
+
 static const uint8_t minusSegments = 0b01000000;
 
 TM1637Display::TM1637Display(uint8_t pinClk, uint8_t pinDIO, unsigned int bitDelay)
@@ -67,8 +123,8 @@ TM1637Display::TM1637Display(uint8_t pinClk, uint8_t pinDIO, unsigned int bitDel
 
 	// Set the pin direction and default value.
 	// Both pins are set as inputs, allowing the pull-up resistors to pull them up
-    pinMode(m_pinClk, INPUT);
-    pinMode(m_pinDIO,INPUT);
+  pinMode(m_pinClk, INPUT);
+  pinMode(m_pinDIO,INPUT);
 	digitalWrite(m_pinClk, LOW);
 	digitalWrite(m_pinDIO, LOW);
 }
@@ -103,7 +159,7 @@ void TM1637Display::setSegments(const uint8_t segments[], uint8_t length, uint8_
 
 void TM1637Display::clear()
 {
-    uint8_t data[] = { 0, 0, 0, 0 };
+  uint8_t data[] = { 0, 0, 0, 0 };
 	setSegments(data);
 }
 
@@ -150,7 +206,7 @@ void TM1637Display::showNumberBaseEx(int8_t base, uint16_t num, uint8_t dots, bo
 		//	i--;
 		//}
 		
-		for(int i = length-1; i >= 0; --i)
+		for (int i = length-1; i >= 0; --i)
 		{
 		    uint8_t digit = num % base;
 			
@@ -169,12 +225,36 @@ void TM1637Display::showNumberBaseEx(int8_t base, uint16_t num, uint8_t dots, bo
 		}
     }
 	
-	if(dots != 0)
+	if (dots != 0)
 	{
 		showDots(dots, digits);
 	}
     
     setSegments(digits, length, pos);
+}
+
+void TM1637Display::showLetter(char c, uint8_t pos)
+{
+  uint8_t seg[1] = {encodeLetter(c)};
+  setSegments(seg, 1, pos);
+}
+
+void TM1637Display::showMessage(char msg[], uint8_t sleep)
+{
+  uint8_t seg[4] = {0, 0, 0, 0};
+  for (uint8_t i = 0; i <= strlen(msg) + 3; i++)
+  {
+    if (i < strlen(msg))
+      seg[3] = encodeLetter(msg[i]);
+    else
+      seg[3] = 0;
+
+    setSegments(seg);
+    delay(sleep);
+
+    for (uint8_t j = 0; j < 3; j++)
+      seg[j] = seg[j + 1];
+  }
 }
 
 void TM1637Display::bitDelay()
@@ -203,7 +283,7 @@ bool TM1637Display::writeByte(uint8_t b)
   uint8_t data = b;
 
   // 8 Data Bits
-  for(uint8_t i = 0; i < 8; i++) {
+  for (uint8_t i = 0; i < 8; i++) {
     // CLK low
     pinMode(m_pinClk, OUTPUT);
     bitDelay();
@@ -245,7 +325,7 @@ bool TM1637Display::writeByte(uint8_t b)
 
 void TM1637Display::showDots(uint8_t dots, uint8_t* digits)
 {
-    for(int i = 0; i < 4; ++i)
+    for (int i = 0; i < 4; ++i)
     {
         digits[i] |= (dots & 0x80);
         dots <<= 1;
@@ -254,5 +334,15 @@ void TM1637Display::showDots(uint8_t dots, uint8_t* digits)
 
 uint8_t TM1637Display::encodeDigit(uint8_t digit)
 {
-	return digitToSegment[digit & 0x0f];
+  return digitToSegment[digit & 0x0f];
+}
+
+uint8_t TM1637Display::encodeLetter(char c)
+{
+  if (c >= 65 && c <= 90)
+    return letterToSegment[c - 65];
+  else if (c >= 97 && c <= 122)
+    return letterToSegment[c - 71];
+  else
+    return 0;
 }

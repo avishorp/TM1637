@@ -70,7 +70,7 @@ public:
 
   //! Display a decimal number
   //!
-  //! Dispaly the given argument as a decimal number.
+  //! Display the given argument as a decimal number.
   //!
   //! @param num The number to be shown
   //! @param leading_zero When true, leading zeros are displayed. Otherwise unnecessary digits are
@@ -83,7 +83,7 @@ public:
 
   //! Display a decimal number, with dot control
   //!
-  //! Dispaly the given argument as a decimal number. The dots between the digits (or colon)
+  //! Display the given argument as a decimal number. The dots between the digits (or colon)
   //! can be individually controlled.
   //!
   //! @param num The number to be shown
@@ -108,7 +108,7 @@ public:
 
   //! Display a hexadecimal number, with dot control
   //!
-  //! Dispaly the given argument as a hexadecimal number. The dots between the digits (or colon)
+  //! Display the given argument as a hexadecimal number. The dots between the digits (or colon)
   //! can be individually controlled.
   //!
   //! @param num The number to be shown
@@ -131,6 +131,22 @@ public:
   //! @param pos The position of the most significant digit (0 - leftmost, 3 - rightmost)
   void showNumberHexEx(uint16_t num, uint8_t dots = 0, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
 
+  //! Display an ASCII letter
+  //!
+  //! Display the given argument as a letter on a 7 segment display..
+  //!
+  //! @param c The letter to be shown
+  //! @param pos The position of the most significant digit (0 - leftmost, 3 - rightmost)
+  void showLetter(char c, uint8_t pos = 0);
+
+  //! Display an ASCII message
+  //!
+  //! Display the given argument as a cycling message on a 7 segment display..
+  //!
+  //! @param msg The message to be shown
+  //! @param sleep The delay between showing a new state(new letter) on the display
+  void showMessage(char msg[], uint8_t sleep = 180);
+
   //! Translate a single digit into 7 segment code
   //!
   //! The method accepts a number between 0 - 15 and converts it to the
@@ -141,6 +157,17 @@ public:
   //! @return A code representing the 7 segment image of the digit (LSB - segment A;
   //!         bit 6 - segment G; bit 7 - always zero)
   uint8_t encodeDigit(uint8_t digit);
+
+  //! Translate a single letter into 7 segment code
+  //!
+  //! The method accepts letters between A - Z and a-z and converts them to the
+  //! code required to display the letter on a 7 segment display.
+  //! Any other ASCII code e.g a space is converted to a blank character.
+  //!
+  //! @param c A letter between A - Z or a - z
+  //! @return A code representing the 7 segment image of the letter (LSB - segment A;
+  //!         bit 6 - segment G; bit 7 - always zero)
+  uint8_t encodeLetter(char c);
 
 protected:
    void bitDelay();
