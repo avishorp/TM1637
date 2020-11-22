@@ -140,7 +140,7 @@ public:
   //! @param digit A number between 0 to 15
   //! @return A code representing the 7 segment image of the digit (LSB - segment A;
   //!         bit 6 - segment G; bit 7 - always zero)
-  uint8_t encodeDigit(uint8_t digit);
+  static uint8_t encodeDigit(uint8_t digit);
 
 protected:
    void bitDelay();
