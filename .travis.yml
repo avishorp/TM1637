@@ -57,7 +57,8 @@ env:
     - PLATFORMIO_CI_SRC=examples/TM1637Test/TM1637Test.ino
 
 install:
-    - pip install -U platformio
+    - pip install -U platformio pip setuptools
+    - platformio update
 
 script:
-    - platformio ci --lib="." --board=nodemcuv2 --board=ethernet
+    - platformio ci --lib="." --board=nodemcuv2 --board=ethernet --board=uno --board=esp-wrover-kit
