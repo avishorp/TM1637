@@ -51,6 +51,15 @@ public:
   //! @param on Turn display on or off
   void setBrightness(uint8_t brightness, bool on = true);
 
+  //! Sets the brightness of the display without changing segments data.
+  //!
+  //! The setting takes effect even if a command is not given to change the being
+  //! displyaed.
+  //!
+  //! @param brightness A number from 0 (lowes brightness) to 7 (highest brightness)
+  //! @param on Turn display on or off
+  void setBrightnessEx(uint8_t brightness, bool on = true);
+
   //! Display arbitrary data on the module
   //!
   //! This function receives raw segment values as input and displays them. The segment data
@@ -152,7 +161,7 @@ protected:
    bool writeByte(uint8_t b);
 
    void showDots(uint8_t dots, uint8_t* digits);
-   
+
    void showNumberBaseEx(int8_t base, uint16_t num, uint8_t dots = 0, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
 
 
@@ -161,6 +170,10 @@ private:
 	uint8_t m_pinDIO;
 	uint8_t m_brightness;
 	unsigned int m_bitDelay;
+
+  uint8_t m_segments[6];
+  uint8_t m_length;
+  uint8_t m_pos;
 };
 
 #endif // __TM1637DISPLAY__
