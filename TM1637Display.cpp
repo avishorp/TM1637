@@ -59,6 +59,9 @@ const uint8_t digitToSegment[] = {
 static const uint8_t minusSegments = 0b01000000;
 
 TM1637Display::TM1637Display(uint8_t pinClk, uint8_t pinDIO, unsigned int bitDelay)
+    : m_segments{0, 0, 0, 0, 0, 0},
+      m_length(4),
+      m_pos(0)
 {
 	// Copy the pin numbers
 	m_pinClk = pinClk;
@@ -78,9 +81,38 @@ void TM1637Display::setBrightness(uint8_t brightness, bool on)
 	m_brightness = (brightness & 0x7) | (on? 0x08 : 0x00);
 }
 
+void TM1637Display::setBrightnessEx(uint8_t brightness, bool on)
+{
+  setBrightness(brightness, on);
+
+  // Write COMM1
+  start();
+  writeByte(TM1637_I2C_COMM1);
+  stop();
+
+  // Write COMM2 + first digit address
+  start();
+  writeByte(TM1637_I2C_COMM2 + (m_pos & 0x03));
+
+  // Write the data bytes
+  for (uint8_t k = 0; k < m_length; k++)
+    writeByte(m_segments[k]);
+
+  stop();
+
+  // Write COMM3 + brightness
+  start();
+  writeByte(TM1637_I2C_COMM3 + (m_brightness & 0x0f));
+  stop();
+}
+
 void TM1637Display::setSegments(const uint8_t segments[], uint8_t length, uint8_t pos)
 {
-    // Write COMM1
+  memcpy(m_segments, segments, length);
+  m_length = length;
+  m_pos = pos;
+
+  // Write COMM1
 	start();
 	writeByte(TM1637_I2C_COMM1);
 	stop();
@@ -149,17 +181,17 @@ void TM1637Display::showNumberBaseEx(int8_t base, uint16_t num, uint8_t dots, bo
 		//    digits[i] = minusSegments;
 		//	i--;
 		//}
-		
+
 		for(int i = length-1; i >= 0; --i)
 		{
 		    uint8_t digit = num % base;
-			
+
 			if (digit == 0 && num == 0 && leading_zero == false)
 			    // Leading zero is blank
 				digits[i] = 0;
 			else
 			    digits[i] = encodeDigit(digit);
-				
+
 			if (digit == 0 && num == 0 && negative) {
 			    digits[i] = minusSegments;
 				negative = false;
@@ -168,12 +200,12 @@ void TM1637Display::showNumberBaseEx(int8_t base, uint16_t num, uint8_t dots, bo
 			num /= base;
 		}
     }
-	
+
 	if(dots != 0)
 	{
 		showDots(dots, digits);
 	}
-    
+
     setSegments(digits, length, pos);
 }
 
