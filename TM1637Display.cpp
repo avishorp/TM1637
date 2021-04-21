@@ -58,12 +58,19 @@ const uint8_t digitToSegment[] = {
 
 static const uint8_t minusSegments = 0b01000000;
 
-TM1637Display::TM1637Display(uint8_t pinClk, uint8_t pinDIO, unsigned int bitDelay)
+TM1637Display::TM1637Display(
+	uint8_t pinClk, 
+	uint8_t pinDIO, 
+	unsigned int bitDelay, 
+	uint8_t digitCount, 
+	uint8_t * digitRemap )
 {
 	// Copy the pin numbers
 	m_pinClk = pinClk;
 	m_pinDIO = pinDIO;
 	m_bitDelay = bitDelay;
+	m_digitCount = digitCount;
+	m_digitRemap = digitRemap;
 
 	// Set the pin direction and default value.
 	// Both pins are set as inputs, allowing the pull-up resistors to pull them up
@@ -80,6 +87,9 @@ void TM1637Display::setBrightness(uint8_t brightness, bool on)
 
 void TM1637Display::setSegments(const uint8_t segments[], uint8_t length, uint8_t pos)
 {
+	if( length == 255 ) { 
+		length = m_digitCount;
+	}
     // Write COMM1
 	start();
 	writeByte(TM1637_I2C_COMM1);
@@ -90,8 +100,14 @@ void TM1637Display::setSegments(const uint8_t segments[], uint8_t length, uint8_
 	writeByte(TM1637_I2C_COMM2 + (pos & 0x03));
 
 	// Write the data bytes
-	for (uint8_t k=0; k < length; k++)
-	  writeByte(segments[k]);
+	for (uint8_t k=0; k < length; k++) {
+		if( m_digitRemap == NULL ) {
+	  		writeByte(segments[k]);
+	  	} else {
+
+	  		writeByte( segments[ m_digitRemap[k] ]);
+	  	}
+	}
 
 	stop();
 
@@ -127,14 +143,17 @@ void TM1637Display::showNumberHexEx(uint16_t num, uint8_t dots, bool leading_zer
 void TM1637Display::showNumberBaseEx(int8_t base, uint16_t num, uint8_t dots, bool leading_zero,
                                     uint8_t length, uint8_t pos)
 {
+	if( length == 255 ) {
+		length = m_digitCount;
+	}
+
     bool negative = false;
 	if (base < 0) {
 	    base = -base;
 		negative = true;
 	}
 
-
-    uint8_t digits[4];
+    uint8_t digits[MAX_DIGIT_COUNT];
 
 	if (num == 0 && !leading_zero) {
 		// Singular case - take care separately
