@@ -19,18 +19,19 @@
 
 #include <inttypes.h>
 
-#define SEG_A   0b00000001
-#define SEG_B   0b00000010
-#define SEG_C   0b00000100
-#define SEG_D   0b00001000
-#define SEG_E   0b00010000
-#define SEG_F   0b00100000
-#define SEG_G   0b01000000
-#define SEG_DP  0b10000000
+#define SEG_A 0b00000001
+#define SEG_B 0b00000010
+#define SEG_C 0b00000100
+#define SEG_D 0b00001000
+#define SEG_E 0b00010000
+#define SEG_F 0b00100000
+#define SEG_G 0b01000000
+#define SEG_DP 0b10000000
 
-#define DEFAULT_BIT_DELAY  100
+#define DEFAULT_BIT_DELAY 100
 
-class TM1637Display {
+class TM1637Display
+{
 
 public:
   //! Initialize a TM1637Display object, setting the clock and
@@ -76,6 +77,9 @@ public:
 
   //! Clear the display
   void clear();
+
+  //! Show only dots
+  void showDotsEx(uint8_t dots);
 
   //! Display a decimal number
   //!
@@ -152,24 +156,23 @@ public:
   static uint8_t encodeDigit(uint8_t digit);
 
 protected:
-   void bitDelay();
+  void bitDelay();
 
-   void start();
+  void start();
 
-   void stop();
+  void stop();
 
-   bool writeByte(uint8_t b);
+  bool writeByte(uint8_t b);
 
-   void showDots(uint8_t dots, uint8_t* digits);
+  void showDots(uint8_t dots, uint8_t *digits);
 
-   void showNumberBaseEx(int8_t base, uint16_t num, uint8_t dots = 0, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
-
+  void showNumberBaseEx(int8_t base, uint16_t num, uint8_t dots = 0, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
 
 private:
-	uint8_t m_pinClk;
-	uint8_t m_pinDIO;
-	uint8_t m_brightness;
-	unsigned int m_bitDelay;
+  uint8_t m_pinClk;
+  uint8_t m_pinDIO;
+  uint8_t m_brightness;
+  unsigned int m_bitDelay;
 
   uint8_t m_segments[6];
   uint8_t m_length;
