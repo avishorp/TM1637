@@ -8,13 +8,15 @@ TM1637Display		KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 
-setBrightness		KEYWORD2
-setSegments		KEYWORD2
-clear			KEYWORD2
-showNumberDec		KEYWORD2
-showNumberDecEx		KEYWORD2
-showNumberHexEx		KEYWORD2
-encodeDigit		KEYWORD2
+setBrightness       KEYWORD2
+setSegments         KEYWORD2
+setColon            KEYWORD2
+getColon            KEYWORD2
+clear               KEYWORD2
+showNumberDec       KEYWORD2
+showNumberDecEx     KEYWORD2
+showNumberHexEx     KEYWORD2
+encodeDigit         KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

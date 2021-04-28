@@ -78,6 +78,18 @@ void TM1637Display::setBrightness(uint8_t brightness, bool on)
 	m_brightness = (brightness & 0x7) | (on? 0x08 : 0x00);
 }
 
+void TM1637Display::setColon(bool colon)
+{
+    m_colon = colon;
+
+    setSegments(m_digit, 1, 1);	// m_digit stores segment layout from last write
+}
+
+bool TM1637Display::getColon()
+{
+    return m_colon;
+}
+
 void TM1637Display::setSegments(const uint8_t segments[], uint8_t length, uint8_t pos)
 {
     // Write COMM1
@@ -90,8 +102,18 @@ void TM1637Display::setSegments(const uint8_t segments[], uint8_t length, uint8_
 	writeByte(TM1637_I2C_COMM2 + (pos & 0x03));
 
 	// Write the data bytes
-	for (uint8_t k=0; k < length; k++)
-	  writeByte(segments[k]);
+    for (uint8_t k{0}; k < length; k++) {
+        if (k + pos == 1) {
+            m_digit[0] = segments[k]; // Store second digit
+            if (m_colon) {
+                writeByte(segments[k] | 0x80); // Set colon ON
+            } else {
+                writeByte(segments[k] | 0x7f); // Set colon OFF
+            }
+        } else {
+            writeByte(segments[k]);
+        }
+    }
 
 	stop();
 
@@ -149,17 +171,17 @@ void TM1637Display::showNumberBaseEx(int8_t base, uint16_t num, uint8_t dots, bo
 		//    digits[i] = minusSegments;
 		//	i--;
 		//}
-		
+
 		for(int i = length-1; i >= 0; --i)
 		{
 		    uint8_t digit = num % base;
-			
+
 			if (digit == 0 && num == 0 && leading_zero == false)
 			    // Leading zero is blank
 				digits[i] = 0;
 			else
 			    digits[i] = encodeDigit(digit);
-				
+
 			if (digit == 0 && num == 0 && negative) {
 			    digits[i] = minusSegments;
 				negative = false;
@@ -168,12 +190,12 @@ void TM1637Display::showNumberBaseEx(int8_t base, uint16_t num, uint8_t dots, bo
 			num /= base;
 		}
     }
-	
+
 	if(dots != 0)
 	{
 		showDots(dots, digits);
 	}
-    
+
     setSegments(digits, length, pos);
 }
 

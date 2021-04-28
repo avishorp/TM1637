@@ -51,6 +51,18 @@ public:
   //! @param on Turn display on or off
   void setBrightness(uint8_t brightness, bool on = true);
 
+  //! Sets the colon on/off.
+  //!
+  //! The setting takes immediate effect.
+  //!
+  //! @param colon : false (off-default) or true (on)
+  void setColon(bool colon = false);
+
+  //! Get colon status
+  //!
+  //! @return the current status of the colon
+  bool getColon();
+
   //! Display arbitrary data on the module
   //!
   //! This function receives raw segment values as input and displays them. The segment data
@@ -152,7 +164,7 @@ protected:
    bool writeByte(uint8_t b);
 
    void showDots(uint8_t dots, uint8_t* digits);
-   
+
    void showNumberBaseEx(int8_t base, uint16_t num, uint8_t dots = 0, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
 
 
@@ -161,6 +173,8 @@ private:
 	uint8_t m_pinDIO;
 	uint8_t m_brightness;
 	unsigned int m_bitDelay;
+	bool m_colon{false};
+	uint8_t m_digit[1];
 };
 
 #endif // __TM1637DISPLAY__
