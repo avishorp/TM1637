@@ -74,7 +74,7 @@ public:
   //!
   //! @param num The number to be shown
   //! @param leading_zero When true, leading zeros are displayed. Otherwise unnecessary digits are
-  //!        blank. NOTE: leading zero is not supported with negative numbers.
+  //!        blank.
   //! @param length The number of digits to set. The user must ensure that the number to be shown
   //!        fits to the number of digits requested (for example, if two digits are to be displayed,
   //!        the number must be between 0 to 99)
@@ -99,7 +99,7 @@ public:
   //!        For displays with dots and colons colon:
   //!        * 0.0:0.0 (0b11100000)
   //! @param leading_zero When true, leading zeros are displayed. Otherwise unnecessary digits are
-  //!        blank. NOTE: leading zero is not supported with negative numbers.
+  //!        blank.
   //! @param length The number of digits to set. The user must ensure that the number to be shown
   //!        fits to the number of digits requested (for example, if two digits are to be displayed,
   //!        the number must be between 0 to 99)

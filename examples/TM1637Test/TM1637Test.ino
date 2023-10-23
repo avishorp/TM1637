@@ -73,6 +73,8 @@ void loop()
   delay(TEST_DELAY);
   display.showNumberDec(301, true); // Expect: 0301
   delay(TEST_DELAY);
+  display.showNumberDec(-23, true);  // Expect: -023
+  delay(TEST_DELAY);
   display.clear();
   display.showNumberDec(14, false, 2, 1); // Expect: _14_
   delay(TEST_DELAY);

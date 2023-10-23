@@ -143,24 +143,17 @@ void TM1637Display::showNumberBaseEx(int8_t base, uint16_t num, uint8_t dots, bo
 		digits[length-1] = encodeDigit(0);
 	}
 	else {
-		//uint8_t i = length-1;
-		//if (negative) {
-		//	// Negative number, show the minus sign
-		//    digits[i] = minusSegments;
-		//	i--;
-		//}
-		
 		for(int i = length-1; i >= 0; --i)
 		{
 		    uint8_t digit = num % base;
 			
-			if (digit == 0 && num == 0 && leading_zero == false)
+			if (digit == 0 && num == 0 && !leading_zero)
 			    // Leading zero is blank
 				digits[i] = 0;
 			else
 			    digits[i] = encodeDigit(digit);
 				
-			if (digit == 0 && num == 0 && negative) {
+			if (digit == 0 && num == 0 && negative && (!leading_zero || i == 0)) {
 			    digits[i] = minusSegments;
 				negative = false;
 			}
