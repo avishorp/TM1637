@@ -112,6 +112,24 @@ void TM1637Display::showNumberDec(int num, bool leading_zero, uint8_t length, ui
   showNumberDecEx(num, 0, leading_zero, length, pos);
 }
 
+void TM1637Display::showNumberFloat(float num, DecimalType decimal_type, bool leading_zero) {
+  if (decimal_type == Colon)
+  {
+    const int COLON_SHIFT = 100;
+
+    int num_int = round(num * COLON_SHIFT);
+    if (num_int < 10000 && num_int > -1000)
+    {
+      bool use_leading_zero = leading_zero || (-COLON_SHIFT < num_int && num_int < COLON_SHIFT);
+      showNumberDecEx(num_int, 0b01000000, use_leading_zero);
+    }
+    else
+    {
+      showNumberDec(round(num), leading_zero);
+    }
+  }
+}
+
 void TM1637Display::showNumberDecEx(int num, uint8_t dots, bool leading_zero,
                                     uint8_t length, uint8_t pos)
 {
