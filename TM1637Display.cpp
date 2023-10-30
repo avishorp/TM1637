@@ -117,11 +117,12 @@ void TM1637Display::showNumberFloat(float num, DecimalType decimal_type, bool le
   {
     const int COLON_SHIFT = 100;
 
-    int num_int = round(num * COLON_SHIFT);
-    if (num_int < 10000 && num_int > -1000)
+    int32_t num_long = round(num * COLON_SHIFT);  // Need int32_t to store 700.0 shifted
+    if (num_long < 10000 && num_long > -1000)
     {
-      bool use_leading_zero = leading_zero || (-COLON_SHIFT < num_int && num_int < COLON_SHIFT);
-      showNumberDecEx(num_int, 0b01000000, use_leading_zero);
+      // In this case a int16_t could store the number but no need to explicitly convert it
+      bool use_leading_zero = leading_zero || (-COLON_SHIFT < num_long && num_long < COLON_SHIFT);
+      showNumberDecEx(num_long, 0b01000000, use_leading_zero);
     }
     else
     {

@@ -100,6 +100,8 @@ void loop()
   delay(TEST_DELAY);
   display.showNumberFloat(-9.996, TM1637Display::Colon);  // Expect: _-10
   delay(TEST_DELAY);
+  display.showNumberFloat(700.6, TM1637Display::Colon);  // Expect: _701
+  delay(TEST_DELAY);
   display.showNumberFloat(0.996, TM1637Display::Colon);  // Expect: _1:00
   delay(TEST_DELAY);
   display.showNumberFloat(2.34, TM1637Display::Colon, false);  // Expect: _2:34
