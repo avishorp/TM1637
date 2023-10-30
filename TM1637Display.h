@@ -81,24 +81,18 @@ public:
   //! @param pos The position of the most significant digit (0 - leftmost, 3 - rightmost)
   void showNumberDec(int num, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
 
-  enum DecimalType {
-    Colon
-  };
-
-  //! Display a floating point number
+  //! Display a floating point number using a colon for the decimal point
   //!
   //! Display the given argument as a floating point number, displaying digits to the right of the
   //! decimal point only when possible while prioritizing all digits to the left of the decimal
   //! point, and given the limitations of 4 digit 7 segment displays.
   //!
   //! @param num The number to be shown
-  //! @param decimal_type Whether to use the colon or decimal points.
-  //!        Note: For now only the colon is supported.
   //! @param leading_zero When true, leading zeros are displayed. Otherwise unnecessary digits are
   //!        blank.
   //!        Note: When `-1 < num < 1` and `leading_zero` is false, superfluous leading zeros may be
   //!        shown. This behavior may change in the future.
-  void showNumberFloat(float num, DecimalType decimal_type, bool leading_zero = false);
+  void showNumberFloatColon(float num, bool leading_zero = false);
 
   //! Display a decimal number, with dot control
   //!

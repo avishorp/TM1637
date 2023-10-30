@@ -91,30 +91,30 @@ void loop()
   display.showNumberDec(-5, false, 3, 0); // Expect: _-5_
   delay(TEST_DELAY);
 
-  // Floating point numbers use the colon when possible
-  display.showNumberFloat(12.34, TM1637Display::Colon);  // Expect: 12:34
+  // Show floating point numbers using the colon for a decimal point when possible
+  display.showNumberFloatColon(12.34);  // Expect: 12:34
   delay(TEST_DELAY);
-  display.showNumberFloat(-12.34, TM1637Display::Colon);  // Expect: _-12
+  display.showNumberFloatColon(-12.34);  // Expect: _-12
   delay(TEST_DELAY);
-  display.showNumberFloat(99.996, TM1637Display::Colon);  // Expect: _100
+  display.showNumberFloatColon(99.996);  // Expect: _100
   delay(TEST_DELAY);
-  display.showNumberFloat(-9.996, TM1637Display::Colon);  // Expect: _-10
+  display.showNumberFloatColon(-9.996);  // Expect: _-10
   delay(TEST_DELAY);
-  display.showNumberFloat(700.6, TM1637Display::Colon);  // Expect: _701
+  display.showNumberFloatColon(700.6);  // Expect: _701
   delay(TEST_DELAY);
-  display.showNumberFloat(0.996, TM1637Display::Colon);  // Expect: _1:00
+  display.showNumberFloatColon(0.996);  // Expect: _1:00
   delay(TEST_DELAY);
-  display.showNumberFloat(2.34, TM1637Display::Colon, false);  // Expect: _2:34
+  display.showNumberFloatColon(2.34, false);  // Expect: _2:34
   delay(TEST_DELAY);
-  display.showNumberFloat(2.34, TM1637Display::Colon, true);  // Expect: 02:34
+  display.showNumberFloatColon(2.34, true);  // Expect: 02:34
   delay(TEST_DELAY);
-  display.showNumberFloat(0.01, TM1637Display::Colon, true);  // Expect: 00:01
+  display.showNumberFloatColon(0.01, true);  // Expect: 00:01
   delay(TEST_DELAY);
-  display.showNumberFloat(0.02, TM1637Display::Colon, false);  // Expect: 00:02 - Future: _0:02
+  display.showNumberFloatColon(0.02, false);  // Expect: 00:02 - Future: _0:02
   delay(TEST_DELAY);
-  display.showNumberFloat(-0.01, TM1637Display::Colon, true);  // Expect: -0.01
+  display.showNumberFloatColon(-0.01, true);  // Expect: -0.01
   delay(TEST_DELAY);
-  display.showNumberFloat(-0.02, TM1637Display::Colon, false);  // Expect: -0.02
+  display.showNumberFloatColon(-0.02, false);  // Expect: -0.02
   delay(TEST_DELAY);
 
   // Hexadecimal
@@ -165,7 +165,7 @@ void loop()
     const float OPERATING_VOLTAGE = 5.0;
     // If analog input pin is not connected, reading will fluctuate
     float reading = (analogRead(0) / RESOLUTION) * OPERATING_VOLTAGE;
-    display.showNumberFloat(reading, TM1637Display::Colon);
+    display.showNumberFloatColon(reading);
     delay(100);
   }
 }

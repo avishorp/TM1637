@@ -112,22 +112,19 @@ void TM1637Display::showNumberDec(int num, bool leading_zero, uint8_t length, ui
   showNumberDecEx(num, 0, leading_zero, length, pos);
 }
 
-void TM1637Display::showNumberFloat(float num, DecimalType decimal_type, bool leading_zero) {
-  if (decimal_type == Colon)
-  {
-    const int COLON_SHIFT = 100;
+void TM1637Display::showNumberFloatColon(float num, bool leading_zero) {
+  const int COLON_SHIFT = 100;
 
-    int32_t num_long = round(num * COLON_SHIFT);  // Need int32_t to store 700.0 shifted
-    if (num_long < 10000 && num_long > -1000)
-    {
-      // In this case a int16_t could store the number but no need to explicitly convert it
-      bool use_leading_zero = leading_zero || (-COLON_SHIFT < num_long && num_long < COLON_SHIFT);
-      showNumberDecEx(num_long, 0b01000000, use_leading_zero);
-    }
-    else
-    {
-      showNumberDec(round(num), leading_zero);
-    }
+  int32_t num_long = round(num * COLON_SHIFT);  // Need int32_t to store 700.0 shifted
+  if (num_long < 10000 && num_long > -1000)
+  {
+    // In this case a int16_t could store the number but no need to explicitly convert it
+    bool use_leading_zero = leading_zero || (-COLON_SHIFT < num_long && num_long < COLON_SHIFT);
+    showNumberDecEx(num_long, 0b01000000, use_leading_zero);
+  }
+  else
+  {
+    showNumberDec(round(num), leading_zero);
   }
 }
 
