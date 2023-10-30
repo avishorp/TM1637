@@ -74,12 +74,25 @@ public:
   //!
   //! @param num The number to be shown
   //! @param leading_zero When true, leading zeros are displayed. Otherwise unnecessary digits are
-  //!        blank. NOTE: leading zero is not supported with negative numbers.
+  //!        blank.
   //! @param length The number of digits to set. The user must ensure that the number to be shown
   //!        fits to the number of digits requested (for example, if two digits are to be displayed,
   //!        the number must be between 0 to 99)
   //! @param pos The position of the most significant digit (0 - leftmost, 3 - rightmost)
   void showNumberDec(int num, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
+
+  //! Display a floating point number using a colon for the decimal point
+  //!
+  //! Display the given argument as a floating point number, displaying digits to the right of the
+  //! decimal point only when possible while prioritizing all digits to the left of the decimal
+  //! point, and given the limitations of 4 digit 7 segment displays.
+  //!
+  //! @param num The number to be shown
+  //! @param leading_zero When true, leading zeros are displayed. Otherwise unnecessary digits are
+  //!        blank.
+  //!        Note: When `-1 < num < 1` and `leading_zero` is false, superfluous leading zeros may be
+  //!        shown. This behavior may change in the future.
+  void showNumberFloatColon(float num, bool leading_zero = false);
 
   //! Display a decimal number, with dot control
   //!
@@ -99,7 +112,7 @@ public:
   //!        For displays with dots and colons colon:
   //!        * 0.0:0.0 (0b11100000)
   //! @param leading_zero When true, leading zeros are displayed. Otherwise unnecessary digits are
-  //!        blank. NOTE: leading zero is not supported with negative numbers.
+  //!        blank.
   //! @param length The number of digits to set. The user must ensure that the number to be shown
   //!        fits to the number of digits requested (for example, if two digits are to be displayed,
   //!        the number must be between 0 to 99)

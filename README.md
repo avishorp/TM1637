@@ -21,6 +21,7 @@ The library provides a single class named TM1637Display. An instance of this cla
 
 * `setSegments` - Set the raw value of the segments of each digit
 * `showNumberDec` - Display a decimal number
+* `showNumberFloatColon` - Display a floating point number using a colon for the decimal point
 * `showNumberDecEx` - Display a decimal number with decimal points or colon
 * `setBrightness` - Sets the brightness of the display
 

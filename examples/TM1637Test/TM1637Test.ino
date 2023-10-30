@@ -73,6 +73,8 @@ void loop()
   delay(TEST_DELAY);
   display.showNumberDec(301, true); // Expect: 0301
   delay(TEST_DELAY);
+  display.showNumberDec(-23, true);  // Expect: -023
+  delay(TEST_DELAY);
   display.clear();
   display.showNumberDec(14, false, 2, 1); // Expect: _14_
   delay(TEST_DELAY);
@@ -88,6 +90,34 @@ void loop()
   display.clear();
   display.showNumberDec(-5, false, 3, 0); // Expect: _-5_
   delay(TEST_DELAY);
+
+  // Show floating point numbers using the colon for a decimal point when possible
+  display.showNumberFloatColon(12.34);  // Expect: 12:34
+  delay(TEST_DELAY);
+  display.showNumberFloatColon(-12.34);  // Expect: _-12
+  delay(TEST_DELAY);
+  display.showNumberFloatColon(99.996);  // Expect: _100
+  delay(TEST_DELAY);
+  display.showNumberFloatColon(-9.996);  // Expect: _-10
+  delay(TEST_DELAY);
+  display.showNumberFloatColon(700.6);  // Expect: _701
+  delay(TEST_DELAY);
+  display.showNumberFloatColon(0.996);  // Expect: _1:00
+  delay(TEST_DELAY);
+  display.showNumberFloatColon(2.34, false);  // Expect: _2:34
+  delay(TEST_DELAY);
+  display.showNumberFloatColon(2.34, true);  // Expect: 02:34
+  delay(TEST_DELAY);
+  display.showNumberFloatColon(0.01, true);  // Expect: 00:01
+  delay(TEST_DELAY);
+  display.showNumberFloatColon(0.02, false);  // Expect: 00:02 - Future: _0:02
+  delay(TEST_DELAY);
+  display.showNumberFloatColon(-0.01, true);  // Expect: -0.01
+  delay(TEST_DELAY);
+  display.showNumberFloatColon(-0.02, false);  // Expect: -0.02
+  delay(TEST_DELAY);
+
+  // Hexadecimal
   display.showNumberHexEx(0xf1af);        // Expect: f1Af
   delay(TEST_DELAY);
   display.showNumberHexEx(0x2c);          // Expect: __2C
@@ -126,6 +156,16 @@ void loop()
  
   // Done!
   display.setSegments(SEG_DONE);
+  delay(TEST_DELAY);
 
-  while(1);
+  // Voltmeter
+  while(true) {
+    // Constants for Arduino Uno
+    const float RESOLUTION = 1023.0;  // Max value for resolution
+    const float OPERATING_VOLTAGE = 5.0;
+    // If analog input pin is not connected, reading will fluctuate
+    float reading = (analogRead(0) / RESOLUTION) * OPERATING_VOLTAGE;
+    display.showNumberFloatColon(reading);
+    delay(100);
+  }
 }

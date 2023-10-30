@@ -112,6 +112,22 @@ void TM1637Display::showNumberDec(int num, bool leading_zero, uint8_t length, ui
   showNumberDecEx(num, 0, leading_zero, length, pos);
 }
 
+void TM1637Display::showNumberFloatColon(float num, bool leading_zero) {
+  const int COLON_SHIFT = 100;
+
+  int32_t num_long = round(num * COLON_SHIFT);  // Need int32_t to store 700.0 shifted
+  if (num_long < 10000 && num_long > -1000)
+  {
+    // In this case a int16_t could store the number but no need to explicitly convert it
+    bool use_leading_zero = leading_zero || (-COLON_SHIFT < num_long && num_long < COLON_SHIFT);
+    showNumberDecEx(num_long, 0b01000000, use_leading_zero);
+  }
+  else
+  {
+    showNumberDec(round(num), leading_zero);
+  }
+}
+
 void TM1637Display::showNumberDecEx(int num, uint8_t dots, bool leading_zero,
                                     uint8_t length, uint8_t pos)
 {
@@ -143,24 +159,17 @@ void TM1637Display::showNumberBaseEx(int8_t base, uint16_t num, uint8_t dots, bo
 		digits[length-1] = encodeDigit(0);
 	}
 	else {
-		//uint8_t i = length-1;
-		//if (negative) {
-		//	// Negative number, show the minus sign
-		//    digits[i] = minusSegments;
-		//	i--;
-		//}
-		
 		for(int i = length-1; i >= 0; --i)
 		{
 		    uint8_t digit = num % base;
 			
-			if (digit == 0 && num == 0 && leading_zero == false)
+			if (digit == 0 && num == 0 && !leading_zero)
 			    // Leading zero is blank
 				digits[i] = 0;
 			else
 			    digits[i] = encodeDigit(digit);
 				
-			if (digit == 0 && num == 0 && negative) {
+			if (digit == 0 && num == 0 && negative && (!leading_zero || i == 0)) {
 			    digits[i] = minusSegments;
 				negative = false;
 			}
