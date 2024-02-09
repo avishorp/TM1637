@@ -42,8 +42,8 @@ void loop()
 
   /*
   for(k = 3; k >= 0; k--) {
-	display.setSegments(data, 1, k);
-	delay(TEST_DELAY);
+    display.setSegments(data, 1, k);
+    delay(TEST_DELAY);
 	}
   */
 
@@ -58,7 +58,6 @@ void loop()
   display.clear();
   display.setSegments(data+1, 3, 1);
   delay(TEST_DELAY);
-
 
   // Show decimal numbers with/without leading zeros
   display.showNumberDec(0, false); // Expect: ___0
@@ -97,7 +96,7 @@ void loop()
   display.clear();
   display.showNumberHexEx(0xd1, 0, true, 2); // Expect: d1__
   delay(TEST_DELAY);
-  
+
 	// Run through all the dots
 	for(k=0; k <= 4; k++) {
 		display.showNumberDecEx(0, (0x80 >> k), true);
@@ -112,7 +111,7 @@ void loop()
     display.setSegments(data);
     delay(TEST_DELAY);
   }
-  
+
   // On/Off test
   for(k = 0; k < 4; k++) {
     display.setBrightness(7, false);  // Turn off
@@ -120,10 +119,9 @@ void loop()
     delay(TEST_DELAY);
     display.setBrightness(7, true); // Turn on
     display.setSegments(data);
-    delay(TEST_DELAY);  
+    delay(TEST_DELAY);
   }
 
- 
   // Done!
   display.setSegments(SEG_DONE);
 
